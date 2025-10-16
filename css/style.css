@@ -596,4 +596,11 @@ footer p strong {
   .product-list { gap: 120px; }
   .about-section { padding: 80px 10%; gap: 80px; }
   .contact-container { max-width: 1200px; margin: 0 auto; }
+
+}
+
+@media (min-resolution: 2dppx) {
+  .dividerLine {
+    border: 0.5px solid grey;
+  }
 }
