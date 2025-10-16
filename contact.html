@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact | OBVX</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- HEADER & NAVIGATION -->
+  <header>
+    <nav class="navbar">
+      <div class="logo">
+        <a href="index.html">
+          <img src="image/Copie_de_OBVX__1_-removebg-preview.png" alt="Logo OBVX">
+        </a>
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="collection.html">Collection</a></li>
+        <li><a href="about.html">À propos</a></li>
+        <li><a href="preorder.html">Précommande</a></li>
+        <li><a href="contact.html" class="active">Contact</a></li>    
+      </ul>
+    </nav>
+  </header>
+
+  <!-- CONTACT SECTION -->
+  <section class="contact">
+    <h2>Contactez-nous</h2>
+    <p>
+      Une question, une suggestion ou une collaboration ?  
+      Écrivez-nous directement via WhatsApp ou par e-mail.
+    </p>
+
+    <div class="contact-container">
+      <!-- Contact Form -->
+      <form id="contactForm" class="contact-form">
+        <label for="name">Nom complet</label>
+        <input type="text" id="name" name="name" placeholder="Entrez votre nom" required>
+
+        <label for="email">Adresse e-mail</label>
+        <input type="email" id="email" name="email" placeholder="Entrez votre e-mail" required>
+
+        <label for="message">Message</label>
+        <textarea id="message" name="message" rows="5" placeholder="Votre message..." required></textarea>
+
+        <button type="submit" class="btn">Envoyer sur WhatsApp</button>
+      </form>
+
+      <!-- Contact Info -->
+      <div class="contact-info">
+        <h3>Nos Coordonnées</h3>
+        <p>📍 <strong>Adresse :</strong> Abidjan, Côte d'Ivoire</p>
+        <p>📞 <strong>Téléphone :</strong> +225 01 03 25 67 23</p>
+        <p>📧 <strong>Email :</strong> contact@upbstudents.com</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-coordonnees">
+      <p class="adresse">📍 Abidjan, Côte d'Ivoire</p>
+      <span class="separator">|</span>
+      <p class="telephone">📞 +225 01 03 25 67 23</p>
+      <span class="separator">|</span>
+      <p class="email">📧 contact@upbstudents.com</p>
+    </div>
+    <p class="footer-copy">© 2025 <strong>OBVX</strong> — Own Your Streets. Tous droits réservés.</p>
+  </footer>
+
+  <!-- FORM SUBMISSION SCRIPT -->
+  <script>
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      let name = document.getElementById('name').value;
+      let email = document.getElementById('email').value;
+      let message = document.getElementById('message').value;
+
+      let phoneNumber = "2250103256723";
+      let text = `*Nouveau message OBVX*%0A👤 Nom : ${name}%0A📧 Email : ${email}%0A💬 Message : ${message}`;
+      let url = `https://wa.me/${phoneNumber}?text=${text}`;
+
+      window.open(url, "_blank");
+    });
+  </script>
+
+</body>
+</html>

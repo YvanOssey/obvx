@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Précommande | OBVX</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <!-- AOS (Animate On Scroll) -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+</head>
+<body>
+
+  <!-- HEADER & NAVIGATION -->
+  <header>
+    <nav class="navbar">
+      <div class="logo">
+        <a href="index.html">
+          <img src="image/Copie_de_OBVX__1_-removebg-preview.png" alt="Logo OBVX">
+        </a>
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="collection.html">Collection</a></li>
+        <li><a href="about.html">À propos</a></li>
+        <li><a href="preorder.html" class="active">Précommande</a></li>
+        <li><a href="contact.html">Contact</a></li>    
+      </ul>
+    </nav>
+  </header>
+
+  <!-- PREORDER SECTION -->
+  <section class="preorder" data-aos="fade-up">
+    <h2>Précommandez votre tee-shirt OBVX</h2>
+    <p>
+      Faites partie des premiers à porter l'esprit OBVX — Original Black Vision.  
+      Remplissez le formulaire ci-dessous pour réserver votre modèle.
+    </p>
+
+    <form id="preorderForm" class="preorder-form" data-aos="fade-up" data-aos-delay="200">
+      <label for="name">Nom complet</label>
+      <input type="text" id="name" name="name" placeholder="Entrez votre nom complet" required>
+
+      <label for="email">Adresse e-mail</label>
+      <input type="email" id="email" name="email" placeholder="Entrez votre adresse e-mail" required>
+
+      <label for="phone">Numéro WhatsApp</label>
+      <input type="tel" id="phone" name="phone" placeholder="Ex : +225 07 00 00 00 00" required>
+
+      <label for="model">Modèle</label>
+      <select id="model" name="model" required>
+        <option value="">-- Sélectionnez un modèle --</option>
+        <option value="white">OBVX White Edition</option>
+        <option value="black">OBVX Black Edition</option>
+      </select>
+
+      <label for="size">Taille</label>
+      <select id="size" name="size" required>
+        <option value="">-- Sélectionnez votre taille --</option>
+        <option value="S">S</option>
+        <option value="M">M</option>
+        <option value="L">L</option>
+        <option value="XL">XL</option>
+      </select>
+
+      <button type="submit" class="btn">Envoyer ma précommande</button>
+    </form>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2025 <strong>OBVX</strong> — Own Your Streets. Tous droits réservés.</p>
+  </footer>
+
+  <!-- FORM SUBMISSION SCRIPT -->
+  <script>
+    document.getElementById('preorderForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      let name = document.getElementById('name').value;
+      let email = document.getElementById('email').value;
+      let phone = document.getElementById('phone').value;
+      let model = document.getElementById('model').value;
+      let size = document.getElementById('size').value;
+
+      let message = `Nouvelle précommande OBVX !\n
+Nom : ${name}\n
+Email : ${email}\n
+WhatsApp : ${phone}\n
+Modèle : ${model}\n
+Taille : ${size}`;
+
+      let myNumber = "2250103256723";
+      let url = `https://wa.me/${myNumber}?text=${encodeURIComponent(message)}`;
+
+      window.open(url, "_blank");
+    });
+  </script>
+  <!-- AOS INITIALIZATION -->
+  <script>
+    AOS.init({
+      duration: 1000,
+      once: true
+    });
+  </script>
+
+</body>
+</html>
