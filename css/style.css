@@ -52,11 +52,11 @@ header {
   align-items: center;
   height: auto;
   min-height: 80px;
-  gap: 20px;
 }
 
 .logo {
   flex-shrink: 0;
+  margin-right: auto;
 }
 
 .logo img {
@@ -75,7 +75,8 @@ header {
   display: flex;
   gap: 2rem;
   align-items: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  margin-left: auto;
 }
 
 .nav-links a {
