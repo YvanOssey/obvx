@@ -1,0 +1,3434 @@
+<!DOCTYPE html>
+<html lang="fr" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OBVX - Boutique Mode Urbaine</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #000000;
+            --secondary: #f59e0b;
+            --accent: #ffffff;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+        }
+        
+        /* Animations avancées */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-80px) skewX(-5deg); }
+            to { opacity: 1; transform: translateX(0) skewX(0deg); }
+        }
+        
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(80px) skewX(5deg); }
+            to { opacity: 1; transform: translateX(0) skewX(0deg); }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-15px) rotate(2deg); }
+            66% { transform: translateY(5px) rotate(-2deg); }
+        }
+        
+        @keyframes pulseGlow {
+            0%, 100% { 
+                opacity: 0.8; 
+                box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+            }
+            50% { 
+                opacity: 1; 
+                box-shadow: 0 0 30px rgba(245, 158, 11, 0.5);
+            }
+        }
+        
+        @keyframes wave {
+            0% { transform: translateX(-100%); }
+            50% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+        
+        @keyframes rotate3D {
+            from { transform: rotateY(0deg); }
+            to { transform: rotateY(360deg); }
+        }
+        
+        @keyframes bounceSoft {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        @keyframes morph {
+            0%, 100% { border-radius: 60% 40% 30% 70%/60% 30% 70% 40%; }
+            50% { border-radius: 30% 60% 70% 40%/50% 60% 30% 60%; }
+        }
+        
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Classes d'animation */
+        .animate-fade-in {
+            animation: fadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        
+        .animate-fade-in-scale {
+            animation: fadeInScale 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        
+        .animate-slide-left {
+            animation: slideInLeft 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        
+        .animate-slide-right {
+            animation: slideInRight 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        
+        .animate-slide-down {
+            animation: slideDown 0.5s ease-out forwards;
+        }
+        
+        .animate-slide-up {
+            animation: slideInUp 0.5s ease-out forwards;
+        }
+        
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .animate-pulse-glow {
+            animation: pulseGlow 2s ease-in-out infinite;
+        }
+        
+        .animate-wave {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .animate-wave::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: wave 2s linear infinite;
+        }
+        
+        .animate-shimmer {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 1000px 100%;
+            animation: shimmer 2s infinite;
+        }
+        
+        .animate-rotate-3d {
+            animation: rotate3D 20s linear infinite;
+            transform-style: preserve-3d;
+        }
+        
+        .animate-bounce-soft {
+            animation: bounceSoft 2s ease-in-out infinite;
+        }
+        
+        .animate-typing {
+            overflow: hidden;
+            white-space: nowrap;
+            animation: typing 3s steps(40, end), blink 0.75s step-end infinite;
+        }
+        
+        .animate-gradient-shift {
+            background-size: 200% 200%;
+            animation: gradientShift 5s ease infinite;
+        }
+        
+        .animate-morph {
+            animation: morph 8s ease-in-out infinite;
+        }
+        
+        .animate-spin {
+            animation: spin 1s linear infinite;
+        }
+        
+        /* UX/UI Optimizations */
+        * {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-feature-settings: "kern", "liga", "clig", "calt";
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+        }
+        
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        /* Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--secondary), #ff8c00);
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+        
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            background: var(--secondary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            z-index: 999;
+            box-shadow: 0 4px 20px rgba(245, 158, 11, 0.3);
+        }
+        
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(245, 158, 11, 0.4);
+        }
+        
+        /* Loading Skeleton */
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--secondary);
+            border-radius: 5px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #e68900;
+        }
+        
+        /* Focus States */
+        :focus {
+            outline: 2px solid var(--secondary);
+            outline-offset: 2px;
+        }
+        
+        :focus:not(:focus-visible) {
+            outline: none;
+        }
+        
+        /* Card Hover Effects */
+        .card-hover {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-origin: center;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        
+        /* Button Improvements */
+        .btn-primary {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--secondary), #ff8c00);
+            transition: all 0.4s ease;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            color: white;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.3);
+        }
+        
+        .btn-primary:active {
+            transform: translateY(-1px);
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.7s;
+        }
+        
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+        
+        /* Form Improvements */
+        .form-input {
+            transition: all 0.3s ease;
+            border: 2px solid #e5e7eb;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            width: 100%;
+            background: white;
+            color: #333;
+        }
+        
+        .form-input:focus {
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .form-input:valid {
+            border-color: var(--success);
+        }
+        
+        .form-input:invalid:not(:placeholder-shown) {
+            border-color: var(--error);
+        }
+        
+        /* Navigation Improvements */
+        .nav-item {
+            position: relative;
+            padding: 0.5rem 0;
+        }
+        
+        .nav-item::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--secondary);
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-origin: left;
+        }
+        
+        .nav-item:hover::after,
+        .nav-item.active::after {
+            width: 100%;
+        }
+        
+        /* Tooltips */
+        .tooltip {
+            position: relative;
+        }
+        
+        .tooltip::before {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-10px);
+            background: var(--primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        
+        .tooltip:hover::before {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(-5px);
+        }
+        
+        /* Toast Notifications */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: white;
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transform: translateX(100%);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 1000;
+            color: #333;
+        }
+        
+        .toast.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        
+        .toast.success {
+            border-left: 4px solid var(--success);
+        }
+        
+        .toast.error {
+            border-left: 4px solid var(--error);
+        }
+        
+        /* Loading States */
+        .loading {
+            position: relative;
+            pointer-events: none;
+        }
+        
+        .loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            border: 2px solid transparent;
+            border-top-color: var(--secondary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-left: -10px;
+            margin-top: -10px;
+        }
+        
+        /* Micro-interactions */
+        .micro-hover {
+            transition: transform 0.2s ease;
+        }
+        
+        .micro-hover:hover {
+            transform: scale(1.05);
+        }
+        
+        /* Accessibility */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+        
+        /* Performance Optimizations */
+        .will-change-transform {
+            will-change: transform;
+        }
+        
+        .will-change-opacity {
+            will-change: opacity;
+        }
+        
+        /* Dark Mode Enhancements */
+        .dark .form-input {
+            background: #1f2937;
+            border-color: #4b5563;
+            color: white;
+        }
+        
+        .dark .form-input:focus {
+            border-color: var(--secondary);
+        }
+        
+        /* Responsive Typography */
+        h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            line-height: 1.2;
+        }
+        
+        h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            line-height: 1.3;
+        }
+        
+        p {
+            font-size: clamp(1rem, 2vw, 1.125rem);
+            line-height: 1.6;
+        }
+        
+        /* Grid Improvements */
+        .auto-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        /* Animation Delays */
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
+        .delay-300 { animation-delay: 300ms; }
+        .delay-400 { animation-delay: 400ms; }
+        .delay-500 { animation-delay: 500ms; }
+        
+        /* Stagger Children */
+        .stagger > * {
+            opacity: 0;
+            animation: fadeIn 0.6s ease forwards;
+        }
+        
+        .stagger > *:nth-child(1) { animation-delay: 0.1s; }
+        .stagger > *:nth-child(2) { animation-delay: 0.2s; }
+        .stagger > *:nth-child(3) { animation-delay: 0.3s; }
+        .stagger > *:nth-child(4) { animation-delay: 0.4s; }
+        .stagger > *:nth-child(5) { animation-delay: 0.5s; }
+        .stagger > *:nth-child(6) { animation-delay: 0.6s; }
+        
+        /* Image Optimizations */
+        .img-cover {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .img-cover:hover {
+            transform: scale(1.05);
+        }
+        
+        /* Hero Section Animation */
+        .hero-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-size: 200% 200%;
+            animation: gradientShift 10s ease infinite;
+        }
+        
+        /* Image Container Styles */
+        .image-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 1rem;
+            background: #f5f5f5;
+            height: 100%;
+        }
+        
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .image-container:hover img {
+            transform: scale(1.05);
+        }
+        
+        .image-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.7) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            display: flex;
+            align-items: flex-end;
+            padding: 1.5rem;
+        }
+        
+        .image-container:hover .image-overlay {
+            opacity: 1;
+        }
+        
+        /* Product Gallery */
+        .product-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .product-image {
+            aspect-ratio: 3/4;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Logo Image in Loader */
+        .logo-img {
+            max-width: 100px;
+            height: auto;
+            filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.5));
+        }
+        
+        /* Lightbox Styles */
+        .lightbox-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .lightbox-image {
+            max-width: 90vw;
+            max-height: 90vh;
+            object-fit: contain;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+            border-radius: 0.5rem;
+        }
+        
+        .lightbox-close {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        
+        .lightbox-close:hover {
+            color: var(--secondary);
+        }
+        
+        /* Product thumbnail gallery */
+        .thumbnail-container {
+            position: absolute;
+            bottom: 1rem;
+            left: 1rem;
+            right: 1rem;
+            display: flex;
+            gap: 0.5rem;
+            z-index: 2;
+        }
+        
+        .thumbnail {
+            width: 60px;
+            height: 60px;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .thumbnail:hover {
+            transform: translateY(-2px);
+            border-color: var(--secondary);
+        }
+        
+        .thumbnail.active {
+            border-color: var(--secondary);
+            box-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
+        }
+        
+        /* Form Radio Button Styles */
+        .radio-option {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .radio-option input[type="radio"]:checked + div {
+            border-color: var(--secondary);
+            background: rgba(245, 158, 11, 0.1);
+        }
+        
+        /* Animations for product cards */
+        .product-card {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeIn 0.8s ease forwards;
+        }
+        
+        /* WhatsApp Button */
+        .whatsapp-button {
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .whatsapp-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.3);
+        }
+        
+        /* WhatsApp Direct Button */
+        .whatsapp-direct-button {
+            background: #25D366;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .whatsapp-direct-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
+            background: #1da851;
+        }
+        
+        /* Cart Styles */
+        .cart-button {
+            position: relative;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #4b5563;
+            transition: color 0.3s ease;
+        }
+        
+        .cart-button:hover {
+            color: var(--secondary);
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--secondary);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        /* Cart Sidebar */
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            max-width: 480px;
+            height: 100vh;
+            background: white;
+            box-shadow: -5px 0 25px rgba(0, 0, 0, 0.1);
+            z-index: 9999;
+            transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .dark .cart-sidebar {
+            background: #1f2937;
+            color: white;
+        }
+        
+        .cart-sidebar.open {
+            transform: translateX(0);
+        }
+        
+        .cart-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 9998;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .cart-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .cart-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .dark .cart-header {
+            border-color: #374151;
+        }
+        
+        .cart-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
+        }
+        
+        .cart-empty {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: #6b7280;
+        }
+        
+        .cart-footer {
+            padding: 1.5rem;
+            border-top: 1px solid #e5e7eb;
+            background: #f9fafb;
+        }
+        
+        .dark .cart-footer {
+            background: #111827;
+            border-color: #374151;
+        }
+        
+        .cart-item {
+            display: flex;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            background: #f9fafb;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .dark .cart-item {
+            background: #374151;
+        }
+        
+        .cart-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .cart-item-image {
+            width: 80px;
+            height: 100px;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        
+        .cart-item-details {
+            flex: 1;
+            padding-left: 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .cart-item-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .cart-item-size {
+            color: #6b7280;
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .cart-item-price {
+            color: var(--secondary);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .cart-item-quantity {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .quantity-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #e5e7eb;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .quantity-btn:hover {
+            background: #d1d5db;
+        }
+        
+        .quantity-input {
+            width: 40px;
+            text-align: center;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.25rem;
+            padding: 0.25rem;
+        }
+        
+        .cart-item-remove {
+            background: none;
+            border: none;
+            color: #ef4444;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            transition: all 0.2s ease;
+            align-self: flex-start;
+        }
+        
+        .cart-item-remove:hover {
+            background: #fee2e2;
+        }
+        
+        .dark .quantity-btn {
+            background: #4b5563;
+        }
+        
+        .dark .quantity-btn:hover {
+            background: #6b7280;
+        }
+        
+        .dark .quantity-input {
+            background: #374151;
+            border-color: #4b5563;
+            color: white;
+        }
+        
+        .dark .cart-item-remove:hover {
+            background: #7f1d1d;
+        }
+        
+        .cart-summary {
+            margin-bottom: 1.5rem;
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        
+        .summary-total {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-top: 0.5rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        .dark .summary-total {
+            border-color: #374151;
+        }
+        
+        .btn-checkout {
+            width: 100%;
+            background: var(--secondary);
+            color: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-checkout:hover {
+            background: #e68900;
+            transform: translateY(-2px);
+        }
+        
+        /* Add to Cart Button */
+        .btn-add-cart {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-add-cart:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.3);
+        }
+        
+        /* Badge */
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .badge-new {
+            background: #3b82f6;
+            color: white;
+        }
+        
+        .badge-limited {
+            background: #f59e0b;
+            color: white;
+        }
+        
+        /* Product actions */
+        .product-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        /* Size Selector */
+        .size-selector {
+            display: flex;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+        
+        .size-option {
+            width: 40px;
+            height: 40px;
+            border: 2px solid #e5e7eb;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 600;
+        }
+        
+        .size-option:hover {
+            border-color: var(--secondary);
+        }
+        
+        .size-option.selected {
+            background: var(--secondary);
+            color: white;
+            border-color: var(--secondary);
+        }
+        
+        /* Order Form in Cart */
+        .order-form-section {
+            background: white;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .dark .order-form-section {
+            background: #374151;
+            border-color: #4b5563;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        /* Checkout Steps */
+        .checkout-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        
+        .checkout-steps::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background: #e5e7eb;
+            z-index: 1;
+        }
+        
+        .checkout-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #e5e7eb;
+            color: #6b7280;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .checkout-step.active .step-number {
+            background: var(--secondary);
+            color: white;
+        }
+        
+        .step-title {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+        
+        .checkout-step.active .step-title {
+            color: var(--secondary);
+            font-weight: 600;
+        }
+        
+        /* Cart Actions */
+        .cart-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .btn-continue {
+            background: #e5e7eb;
+            color: #374151;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+        }
+        
+        .btn-continue:hover {
+            background: #d1d5db;
+        }
+        
+        .btn-checkout-cart {
+            background: var(--secondary);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-checkout-cart:hover {
+            background: #e68900;
+            transform: translateY(-2px);
+        }
+        
+        /* Payment Methods */
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .payment-method {
+            padding: 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .payment-method:hover {
+            border-color: var(--secondary);
+        }
+        
+        .payment-method.selected {
+            border-color: var(--secondary);
+            background: rgba(245, 158, 11, 0.1);
+        }
+        
+        .payment-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Order Summary */
+        .order-summary {
+            background: #f9fafb;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .dark .order-summary {
+            background: #374151;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#000000',
+                        secondary: '#f59e0b',
+                        accent: '#ffffff',
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-glow': 'pulseGlow 2s ease-in-out infinite',
+                        'typing': 'typing 3s steps(40, end)',
+                        'blink': 'blink 0.75s step-end infinite',
+                        'morph': 'morph 8s ease-in-out infinite',
+                        'gradient-shift': 'gradientShift 5s ease infinite',
+                        'spin': 'spin 1s linear infinite',
+                        'slide-down': 'slideDown 0.5s ease-out forwards',
+                        'slide-up': 'slideInUp 0.5s ease-out forwards',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-white text-gray-800 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300 overflow-x-hidden">
+    
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
+    
+    <!-- Back to Top Button -->
+    <div class="back-to-top" id="backToTop">
+        <i class="fas fa-chevron-up"></i>
+    </div>
+    
+    <!-- Toast Container -->
+    <div id="toastContainer"></div>
+    
+    <!-- Lightbox Container -->
+    <div id="lightboxContainer"></div>
+    
+    <!-- Cart Overlay -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+    
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3 class="text-xl font-bold">🛒 Votre Panier</h3>
+            <button class="cart-close" id="cartClose">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+        </div>
+        
+        <div class="cart-content" id="cartContent">
+            <!-- Cart items will be loaded here -->
+            <div class="cart-empty" id="cartEmpty">
+                <i class="fas fa-shopping-cart text-4xl mb-4 text-gray-300"></i>
+                <p class="text-gray-500 dark:text-gray-400">Votre panier est vide</p>
+                <p class="text-sm text-gray-400 mt-2">Ajoutez des produits pour commencer vos achats</p>
+                <button onclick="closeCart(); document.getElementById('collection').scrollIntoView({ behavior: 'smooth' })" 
+                        class="mt-4 px-6 py-2 bg-amber-500 text-white rounded-full hover:bg-orange-500 transition-colors duration-300">
+                    Voir la collection
+                </button>
+            </div>
+            
+            <!-- Order Form (visible when cart has items) -->
+            <div id="orderFormContainer" style="display: none;">
+                <div class="checkout-steps">
+                    <div class="checkout-step active" id="stepCart">
+                        <div class="step-number">1</div>
+                        <div class="step-title">Panier</div>
+                    </div>
+                    <div class="checkout-step" id="stepInfo">
+                        <div class="step-number">2</div>
+                        <div class="step-title">Informations</div>
+                    </div>
+                    <div class="checkout-step" id="stepPayment">
+                        <div class="step-number">3</div>
+                        <div class="step-title">Paiement</div>
+                    </div>
+                </div>
+                
+                <!-- Step 1: Cart Items -->
+                <div id="stepCartContent">
+                    <div id="cartItemsList"></div>
+                </div>
+                
+                <!-- Step 2: Customer Information -->
+                <div id="stepInfoContent" style="display: none;">
+                    <div class="order-form-section">
+                        <h4 class="font-bold text-lg mb-4">Informations de livraison</h4>
+                        <form id="customerInfoForm">
+                            <div class="form-group">
+                                <label class="form-label">Nom complet *</label>
+                                <input type="text" id="customerName" required class="form-input" placeholder="Votre nom complet">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Email *</label>
+                                <input type="email" id="customerEmail" required class="form-input" placeholder="email@exemple.com">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Téléphone *</label>
+                                <input type="tel" id="customerPhone" required class="form-input" placeholder="+225 01 02 03 04 05">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Adresse de livraison *</label>
+                                <textarea id="customerAddress" required class="form-input" rows="3" placeholder="Votre adresse complète"></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Ville *</label>
+                                <input type="text" id="customerCity" required class="form-input" placeholder="Votre ville">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Commentaire (optionnel)</label>
+                                <textarea id="orderNotes" class="form-input" rows="2" placeholder="Notes supplémentaires pour la commande"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- Step 3: Payment Method -->
+                <div id="stepPaymentContent" style="display: none;">
+                    <div class="order-form-section">
+                        <h4 class="font-bold text-lg mb-4">Méthode de paiement</h4>
+                        <div class="payment-methods">
+                            <div class="payment-method" onclick="selectPaymentMethod('whatsapp')">
+                                <div class="payment-icon">
+                                    <i class="fab fa-whatsapp text-green-500"></i>
+                                </div>
+                                <div class="font-medium">WhatsApp</div>
+                                <div class="text-sm text-gray-500">Paiement sécurisé</div>
+                            </div>
+                            <div class="payment-method" onclick="selectPaymentMethod('cash')">
+                                <div class="payment-icon">
+                                    <i class="fas fa-money-bill text-green-500"></i>
+                                </div>
+                                <div class="font-medium">Paiement à la livraison</div>
+                                <div class="text-sm text-gray-500">Cash à la réception</div>
+                            </div>
+                        </div>
+                        
+                        <div class="order-summary mt-4" id="orderSummary">
+                            <!-- Order summary will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Cart Footer with Actions -->
+        <div class="cart-footer" id="cartFooter" style="display: none;">
+            <div class="cart-summary">
+                <div class="summary-row">
+                    <span>Sous-total</span>
+                    <span id="cartSubtotal">0 FCFA</span>
+                </div>
+                <div class="summary-row">
+                    <span>Livraison</span>
+                    <span id="cartShipping">2 000 FCFA</span>
+                </div>
+                <div class="summary-row summary-total">
+                    <span>Total</span>
+                    <span id="cartTotal">0 FCFA</span>
+                </div>
+            </div>
+            
+            <!-- Step Navigation -->
+            <div class="cart-actions" id="cartActions">
+                <button class="btn-continue" onclick="continueShopping()">
+                    <i class="fas fa-arrow-left mr-2"></i>
+                    Continuer mes achats
+                </button>
+                <button class="btn-checkout-cart" onclick="nextStep()">
+                    <span id="nextStepText">Suivant</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+            
+            <!-- Complete Order Button (shown on last step) -->
+            <button class="btn-checkout" id="completeOrderBtn" style="display: none;" onclick="completeOrder()">
+                <i class="fas fa-check mr-2"></i>
+                Finaliser la commande
+            </button>
+        </div>
+    </div>
+
+    <!-- Loader -->
+    <div class="loader fixed inset-0 bg-white dark:bg-gray-900 flex items-center justify-center z-50" id="loader">
+        <div class="text-center">
+            <div class="relative w-32 h-32 mx-auto mb-8">
+                <div class="absolute inset-0 bg-gradient-to-r from-amber-500 to-orange-500 rounded-full animate-morph"></div>
+                <div class="absolute inset-4 bg-gradient-to-r from-black to-gray-800 rounded-full animate-rotate-3d"></div>
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="text-3xl font-bold text-white animate-pulse-glow">
+                        <img src="image/Copie_de_OBVX__1_-removebg-preview.png" alt="OBVX Logo" class="logo-img">
+                    </div>
+                </div>
+            </div>
+            <div class="text-gray-600 dark:text-gray-300 animate-typing">Chargement...</div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <header class="sticky top-0 z-40 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 animate-slide-down">
+        <nav class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <a href="#home" class="flex items-center space-x-3 group" id="logoLink">
+                    <div class="w-10 h-10 bg-gradient-to-r from-amber-500 to-orange-500 rounded-lg flex items-center justify-center animate-float">
+                        <span class="text-white font-bold text-xl">O</span>
+                    </div>
+                    <span class="text-2xl font-bold bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">
+                        BVX
+                    </span>
+                </a>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="nav-item text-gray-600 dark:text-gray-300 hover:text-amber-500 dark:hover:text-amber-400 transition-colors duration-300 font-medium">
+                        Accueil
+                    </a>
+                    <a href="#about" class="nav-item text-gray-600 dark:text-gray-300 hover:text-amber-500 dark:hover:text-amber-400 transition-colors duration-300 font-medium">
+                        À propos
+                    </a>
+                    <a href="#collection" class="nav-item text-gray-600 dark:text-gray-300 hover:text-amber-500 dark:hover:text-amber-400 transition-colors duration-300 font-medium">
+                        Boutique
+                    </a>
+                    <a href="#contact" class="nav-item text-gray-600 dark:text-gray-300 hover:text-amber-500 dark:hover:text-amber-400 transition-colors duration-300 font-medium">
+                        Contact
+                    </a>
+                    
+                    <!-- Cart Button -->
+                    <button class="cart-button relative p-2" id="cartButton">
+                        <i class="fas fa-shopping-cart text-xl"></i>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </button>
+                    
+                    <!-- Theme Toggle -->
+                    <button id="themeToggle" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-300 tooltip" data-tooltip="Changer le thème">
+                        <i class="fas fa-sun text-amber-500 dark:hidden"></i>
+                        <i class="fas fa-moon text-gray-300 hidden dark:inline"></i>
+                    </button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="flex items-center space-x-4 md:hidden">
+                    <!-- Cart Button Mobile -->
+                    <button class="cart-button relative p-2" id="cartButtonMobile">
+                        <i class="fas fa-shopping-cart text-xl"></i>
+                        <span class="cart-count" id="cartCountMobile">0</span>
+                    </button>
+                    
+                    <button id="mobileMenuButton" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-300">
+                        <i class="fas fa-bars text-gray-600 dark:text-gray-300"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobileMenu" class="md:hidden mt-4 hidden animate-fade-in-scale">
+                <div class="flex flex-col space-y-4 py-4">
+                    <a href="#home" class="nav-item text-gray-600 dark:text-gray-300 hover:text-amber-500 dark:hover:text-amber-400 transition-colors duration-300 py-2 border-b border-gray-100 dark:border-gray-800">
+                        Accueil
+                    </a>
+                    <a href="#about" class="nav-item text-gray-600 dark:text-gray-300 hover:text-amber-500 dark:hover:text-amber-400 transition-colors duration-300 py-2 border-b border-gray-100 dark:border-gray-800">
+                        À propos
+                    </a>
+                    <a href="#collection" class="nav-item text-gray-600 dark:text-gray-300 hover:text-amber-500 dark:hover:text-amber-400 transition-colors duration-300 py-2 border-b border-gray-100 dark:border-gray-800">
+                        Boutique
+                    </a>
+                    <a href="#contact" class="nav-item text-gray-600 dark:text-gray-300 hover:text-amber-500 dark:hover:text-amber-400 transition-colors duration-300 py-2">
+                        Contact
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="min-h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-black via-gray-900 to-black">
+            <!-- Background Animation -->
+            <div class="absolute inset-0 z-0">
+                <div class="absolute inset-0 opacity-30">
+                    <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-amber-500 rounded-full animate-float opacity-10"></div>
+                    <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-orange-500 rounded-full animate-float opacity-10 delay-300"></div>
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div class="container mx-auto px-4 relative z-10 text-center">
+                <h1 class="text-5xl md:text-7xl font-bold mb-6 animate-fade-in text-white">
+                    Redéfinissons la
+                    <span class="bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 bg-clip-text text-transparent animate-gradient-shift">
+                        Mode Urbaine
+                    </span>
+                </h1>
+                
+                <p class="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto animate-fade-in delay-200">
+                    Découvrez notre collection exclusive de vêtements streetwear 
+                    conçue pour ceux qui osent être différents.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in delay-300">
+                    <a href="#collection" class="btn-primary text-white px-8 py-4">
+                        <span>Découvrir la boutique</span>
+                        <i class="fas fa-arrow-right ml-2 animate-bounce-soft"></i>
+                    </a>
+                    
+                    <a href="#collection" class="px-8 py-4 border-2 border-amber-500 text-amber-500 rounded-full font-semibold hover:bg-amber-500 hover:text-white transition-all duration-300 hover:scale-105 inline-block">
+                        Acheter maintenant
+                    </a>
+                </div>
+                
+                <!-- Scroll Indicator -->
+                <div class="mt-16 animate-bounce-soft delay-500">
+                    <a href="#about" class="text-gray-400 hover:text-amber-500 transition-colors duration-300">
+                        <i class="fas fa-chevron-down text-2xl"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-20 bg-gray-50 dark:bg-gray-800">
+            <div class="container mx-auto px-4">
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <!-- Image -->
+                    <div class="animate-slide-left">
+                        <div class="relative">
+                            <div class="w-full h-96 bg-gradient-to-br from-amber-500 to-orange-500 rounded-2xl shadow-2xl transform rotate-3 hover:rotate-0 transition-transform duration-500"></div>
+                            <div class="absolute -bottom-6 -right-6 w-64 h-64 bg-gray-900 rounded-2xl shadow-2xl animate-float delay-200"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Content -->
+                    <div class="animate-slide-right">
+                        <h2 class="text-4xl font-bold mb-6">
+                            Notre <span class="text-amber-500">Histoire</span>
+                        </h2>
+                        
+                        <p class="text-lg text-gray-600 dark:text-gray-300 mb-6">
+                            OBVX est né de la passion pour la mode urbaine et du désir de créer 
+                            des pièces qui racontent une histoire. Notre marque 
+                            représente l'innovation, l'authenticité et le style avant-gardiste.
+                        </p>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-start space-x-3">
+                                <div class="w-10 h-10 bg-amber-500 rounded-full flex items-center justify-center flex-shrink-0 animate-pulse-glow">
+                                    <i class="fas fa-bolt text-white"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-lg mb-1">Innovation Continue</h3>
+                                    <p class="text-gray-600 dark:text-gray-300">
+                                        Toujours à la recherche de nouveaux designs et techniques.
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start space-x-3">
+                                <div class="w-10 h-10 bg-amber-500 rounded-full flex items-center justify-center flex-shrink-0 animate-pulse-glow delay-200">
+                                    <i class="fas fa-star text-white"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-lg mb-1">Qualité Premium</h3>
+                                    <p class="text-gray-600 dark:text-gray-300">
+                                        Matériaux de haute qualité et confection soignée.
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start space-x-3">
+                                <div class="w-10 h-10 bg-amber-500 rounded-full flex items-center justify-center flex-shrink-0 animate-pulse-glow delay-400">
+                                    <i class="fas fa-users text-white"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-lg mb-1">Communauté</h3>
+                                    <p class="text-gray-600 dark:text-gray-300">
+                                        Une marque créée pour et par la communauté streetwear.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Collection/Boutique Section -->
+        <section id="collection" class="py-20 bg-white dark:bg-gray-900">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-bold mb-4 animate-fade-in">
+                        Notre <span class="text-amber-500">Boutique</span>
+                    </h2>
+                    <p class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto animate-fade-in delay-200">
+                        Découvrez nos pièces emblématiques, conçues pour ceux qui osent 
+                        se démarquer.
+                    </p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Product 1 - T-shirt Noir Original -->
+                    <div class="card-hover bg-gray-50 dark:bg-gray-800 rounded-2xl p-6 shadow-lg animate-fade-in-scale product-card">
+                        <div class="relative">
+                            <span class="badge badge-new absolute top-4 left-4 z-10">Standard</span>
+                        </div>
+                        <div class="relative h-96 mb-6 overflow-hidden rounded-xl">
+                            <!-- Image principale du t-shirt noir -->
+                            <div class="image-container" id="blackShirtContainer1">
+                                <img src="image/8a7ed00f007644ba9a32554bc2bdcdf8.jpg" 
+                                     alt="T-shirt OBVX Noir - Face" 
+                                     class="w-full h-full object-cover"
+                                     id="blackMainImage1">
+                                
+                                <div class="image-overlay">
+                                    <span class="text-white font-semibold">T-shirt Noir - Collection Exclusive</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Mini galerie d'images -->
+                            <div class="thumbnail-container">
+                                <div class="thumbnail active" onclick="changeProductImage('black1', 'face')">
+                                    <img src="image/8a7ed00f007644ba9a32554bc2bdcdf8.jpg" 
+                                         alt="T-shirt Noir Face" 
+                                         class="w-full h-full object-cover">
+                                </div>
+                                <div class="thumbnail" onclick="changeProductImage('black1', 'back')">
+                                    <img src="image/WhatsApp Image 2025-10-07 à 22.00.00_33611325.jpg" 
+                                         alt="T-shirt Noir Dos" 
+                                         class="w-full h-full object-cover">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h3 class="text-2xl font-bold mb-2">T-shirt OBVX Noir</h3>
+                        
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">
+                            Pièce emblématique avec logo "OBVX" sur la poitrine et design exclusif 
+                            au dos. 100% coton, coupe moderne et confortable.
+                        </p>
+                        
+                        <div class="size-selector">
+                            <div class="size-option selected" onclick="selectSize(this, 'M')">M</div>
+                            <div class="size-option" onclick="selectSize(this, 'L')">L</div>
+                            <div class="size-option" onclick="selectSize(this, 'XL')">XL</div>
+                        </div>
+                        
+                        <div class="space-y-3 mb-6">
+                            <div class="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                                <i class="fas fa-check text-amber-500 mr-2"></i>
+                                <span>100% coton</span>
+                            </div>
+                            <div class="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                                <i class="fas fa-check text-amber-500 mr-2"></i>
+                                <span>Impression haute qualité</span>
+                            </div>
+                            <div class="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                                <i class="fas fa-check text-amber-500 mr-2"></i>
+                                <span>Coupe loose fit</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <span class="text-2xl font-bold text-amber-500">8 000 FCFA</span>
+                            </div>
+                            <button onclick="addToCart('black1', 'T-shirt OBVX Noir', 8000)" 
+                                    class="btn-add-cart">
+                                <i class="fas fa-cart-plus"></i>
+                                <span>Ajouter au panier</span>
+                            </button>
+                        </div>
+                    </div>
+
+
+                    
+
+                    <!-- Product 2 - T-shirt Noir Orbit -->
+
+                    <div class="card-hover bg-gray-50 dark:bg-gray-800 rounded-2xl p-6 shadow-lg animate-fade-in-scale product-card">
+                        <div class="relative">
+                            <span class="badge badge-new absolute top-4 left-4 z-10">Standard</span>
+                        </div>
+                        <div class="relative h-96 mb-6 overflow-hidden rounded-xl">
+                            <!-- Image principale du t-shirt noir -->
+                            <div class="image-container" id="blackShirtContainer2">
+                                <img src="image/Gemini_Generated_Image_b180uob180uob181.png" 
+                                     alt="T-shirt OBVX Noir - Face" 
+                                     class="w-full h-full object-cover"
+                                     id="blackMainImage2">
+                                
+                                <div class="image-overlay">
+                                    <span class="text-white font-semibold">T-shirt OBVX ORBIT TEE - Collection Exclusive</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Mini galerie d'images -->
+                            <div class="thumbnail-container">
+                                <div class="thumbnail active" onclick="changeProductImage('black2', 'face')">
+                                    <img src="image/Gemini_Generated_Image_b180uob180uob181.png" 
+                                         alt="T-shirt Noir Face" 
+                                         class="w-full h-full object-cover">
+                                </div>
+                                <div class="thumbnail" onclick="changeProductImage('black2', 'back')">
+                                    <img src="image/Gemini_Generated_Image_29uccr29uccr29ud.png" 
+                                         alt="T-shirt Noir Dos" 
+                                         class="w-full h-full object-cover">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h3 class="text-2xl font-bold mb-2">T-shirt OBVX Noir</h3>
+                        
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">
+                            T-shirt streetwear au design épuré, avec un graphisme fort au dos
+                            et un logo miniminal à l'avant.
+                        </p>
+                        
+                        <div class="size-selector">
+                            <div class="size-option selected" onclick="selectSize(this, 'M')">M</div>
+                            <div class="size-option" onclick="selectSize(this, 'L')">L</div>
+                            <div class="size-option" onclick="selectSize(this, 'XL')">XL</div>
+                        </div>
+                        
+                        <div class="space-y-3 mb-6">
+                            <div class="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                                <i class="fas fa-check text-amber-500 mr-2"></i>
+                                <span>100% coton</span>
+                            </div>
+                            <div class="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                                <i class="fas fa-check text-amber-500 mr-2"></i>
+                                <span>Impression haute qualité</span>
+                            </div>
+                            <div class="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                                <i class="fas fa-check text-amber-500 mr-2"></i>
+                                <span>Coupe loose fit</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <span class="text-2xl font-bold text-amber-500">8 000 FCFA</span>
+                            </div>
+                            <button onclick="addToCart('black2', 'T-shirt OBVX Noir', 8000)" 
+                                    class="btn-add-cart">
+                                <i class="fas fa-cart-plus"></i>
+                                <span>Ajouter au panier</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Product 3 - T-shirt Blanc -->
+                    <div class="card-hover bg-gray-50 dark:bg-gray-800 rounded-2xl p-6 shadow-lg animate-fade-in-scale delay-200 product-card">
+                        <div class="relative h-96 mb-6 overflow-hidden rounded-xl">
+                            <div class="relative">
+                                <span class="badge badge-new absolute top-4 left-4 z-10">Standard</span>
+                            </div>
+                            <!-- Image principale du t-shirt blanc -->
+                            <div class="image-container" id="whiteShirtContainer">
+                                <img src="image/WhatsApp Image 2025-10-07 à 11.24.51_1d509248.jpg" 
+                                     alt="T-shirt OBVX Blanc - Face" 
+                                     class="w-full h-full object-cover"
+                                     id="whiteMainImage">
+                                
+                                <div class="image-overlay">
+                                    <span class="text-white font-semibold">T-shirt Blanc - Collection Exclusive</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Mini galerie d'images -->
+                            <div class="thumbnail-container">
+                                <div class="thumbnail active" onclick="changeProductImage('white', 'face')">
+                                    <img src="image/WhatsApp Image 2025-10-07 à 11.24.51_1d509248.jpg" 
+                                         alt="T-shirt Blanc Face" 
+                                         class="w-full h-full object-cover">
+                                </div>
+                                <div class="thumbnail" onclick="changeProductImage('white', 'back')">
+                                    <img src="image/IMG-20251007-WA0182.jpg" 
+                                         alt="T-shirt Blanc Dos" 
+                                         class="w-full h-full object-cover">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h3 class="text-2xl font-bold mb-2">T-shirt OBVX Blanc</h3>
+                        
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">
+                            Design épuré avec araignée stylisée rose fluo. Matière respirante, 
+                            parfaite pour toutes occasions. Logo discret et élégant.
+                        </p>
+                        
+                        <div class="size-selector">
+                            <div class="size-option selected" onclick="selectSize(this, 'M')">M</div>
+                            <div class="size-option" onclick="selectSize(this, 'L')">L</div>
+                            <div class="size-option" onclick="selectSize(this, 'XL')">XL</div>
+                        </div>
+                        
+                        <div class="space-y-3 mb-6">
+                            <div class="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                                <i class="fas fa-check text-amber-500 mr-2"></i>
+                                <span>100% Coton</span>
+                            </div>
+                            <div class="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                                <i class="fas fa-check text-amber-500 mr-2"></i>
+                                <span>Design araignée exclusif</span>
+                            </div>
+                            <div class="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                                <i class="fas fa-check text-amber-500 mr-2"></i>
+                                <span>Teinture écologique</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <span class="text-2xl font-bold text-amber-500">8 000 FCFA</span>
+                            </div>
+                            <button onclick="addToCart('white', 'T-shirt OBVX Blanc', 8000)" 
+                                    class="btn-add-cart">
+                                <i class="fas fa-cart-plus"></i>
+                                <span>Ajouter au panier</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Product 4 - T-shirt Blanc Street Culture -->
+                    <div class="card-hover bg-gray-50 dark:bg-gray-800 rounded-2xl p-6 shadow-lg animate-fade-in-scale product-card">
+                        <div class="relative">
+                            <span class="badge badge-new absolute top-4 left-4 z-10">Standard</span>
+                        </div>
+                        <div class="relative h-96 mb-6 overflow-hidden rounded-xl">
+                            <!-- Image principale du t-shirt noir -->
+                            <div class="image-container" id="white3ShirtContainer">
+                                <img src="image/Gemini_Generated_Image_gxko74gxko74gxko.png" 
+                                     alt="T-shirt OBVX Noir - Face" 
+                                     class="w-full h-full object-cover"
+                                     id="white3MainImage">
+                                
+                                <div class="image-overlay">
+                                    <span class="text-white font-semibold">T-shirt Blanc - Collection Street Culture </span>
+                                </div>
+                            </div>
+                            
+                            <!-- Mini galerie d'images -->
+                            <div class="thumbnail-container">
+                                <div class="thumbnail active" onclick="changeProductImage('white3', 'face')">
+                                    <img src="image/Gemini_Generated_Image_gxko74gxko74gxko.png" 
+                                         alt="T-shirt Noir Face" 
+                                         class="w-full h-full object-cover">
+                                </div>
+                                <div class="thumbnail" onclick="changeProductImage('white3', 'back')">
+                                    <img src="image/Gemini_Generated_Image_a222p9a222p9a222.png" 
+                                         alt="T-shirt Noir Dos" 
+                                         class="w-full h-full object-cover">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h3 class="text-2xl font-bold mb-2">T-shirt OBVX White Street Culture</h3>
+                        
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">
+                            T-shirt blanc oversize en coton, logo OBVX rose à l'avant, et illustration de tour à l'arrière.
+                            Miniminal, confortable et streetwear.
+                        </p>
+                        
+                        <div class="size-selector">
+                            <div class="size-option selected" onclick="selectSize(this, 'M')">M</div>
+                            <div class="size-option" onclick="selectSize(this, 'L')">L</div>
+                            <div class="size-option" onclick="selectSize(this, 'XL')">XL</div>
+                        </div>
+                        
+                        <div class="space-y-3 mb-6">
+                            <div class="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                                <i class="fas fa-check text-amber-500 mr-2"></i>
+                                <span>100% coton</span>
+                            </div>
+                            <div class="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                                <i class="fas fa-check text-amber-500 mr-2"></i>
+                                <span>Impression haute qualité</span>
+                            </div>
+                            <div class="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                                <i class="fas fa-check text-amber-500 mr-2"></i>
+                                <span>Coupe loose fit</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <span class="text-2xl font-bold text-amber-500">8 000 FCFA</span>
+                            </div>
+                            <button onclick="addToCart('white3', 'T-shirt OBVX streetwear', 8000)" 
+                                    class="btn-add-cart">
+                                <i class="fas fa-cart-plus"></i>
+                                <span>Ajouter au panier</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Product 5 - T-shirt Blanc Uban Vibes -->
+                    <div class="card-hover bg-gray-50 dark:bg-gray-800 rounded-2xl p-6 shadow-lg animate-fade-in-scale product-card">
+                        <div class="relative">
+                            <span class="badge badge-new absolute top-4 left-4 z-10">Standard</span>
+                        </div>
+                        <div class="relative h-96 mb-6 overflow-hidden rounded-xl">
+                            <!-- Image principale du t-shirt noir -->
+                            <div class="image-container" id="white4ShirtContainer">
+                                <img src="image/Gemini_Generated_Image_30558w30558w3055.png" 
+                                     alt="T-shirt OBVX Noir - Face" 
+                                     class="w-full h-full object-cover"
+                                     id="white4MainImage">
+                                
+                                <div class="image-overlay">
+                                    <span class="text-white font-semibold">T-shirt OBVX Blanc - Collection Tee-Graphic Back </span>
+                                </div>
+                            </div>
+                            
+                            <!-- Mini galerie d'images -->
+                            <div class="thumbnail-container">
+                                <div class="thumbnail active" onclick="changeProductImage('white4', 'face')">
+                                    <img src="image/Gemini_Generated_Image_30558w30558w3055.png" 
+                                         alt="T-shirt Noir Face" 
+                                         class="w-full h-full object-cover">
+                                </div>
+                                <div class="thumbnail" onclick="changeProductImage('white4', 'back')">
+                                    <img src="image/Gemini_Generated_Image_9bbj0y9bbj0y9bbj.png" 
+                                         alt="T-shirt Noir Dos" 
+                                         class="w-full h-full object-cover">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h3 class="text-2xl font-bold mb-2">T-shirt OBVX White - Uban Vibes</h3>
+                        
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">
+                            T-shirt blanc oversize avec illustration artistique au dos.
+                            Style urbain et affirmé.
+                        </p>
+                        
+                        <div class="size-selector">
+                            <div class="size-option selected" onclick="selectSize(this, 'M')">M</div>
+                            <div class="size-option" onclick="selectSize(this, 'L')">L</div>
+                            <div class="size-option" onclick="selectSize(this, 'XL')">XL</div>
+                        </div>
+                        
+                        <div class="space-y-3 mb-6">
+                            <div class="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                                <i class="fas fa-check text-amber-500 mr-2"></i>
+                                <span>100% coton</span>
+                            </div>
+                            <div class="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                                <i class="fas fa-check text-amber-500 mr-2"></i>
+                                <span>Impression haute qualité</span>
+                            </div>
+                            <div class="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                                <i class="fas fa-check text-amber-500 mr-2"></i>
+                                <span>Coupe loose fit</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <span class="text-2xl font-bold text-amber-500">8 000 FCFA</span>
+                            </div>
+                            <button onclick="addToCart('white4', 'T-shirt OBVX Graphic Back', 8000)" 
+                                    class="btn-add-cart">
+                                <i class="fas fa-cart-plus"></i>
+                                <span>Ajouter au panier</span>
+                            </button>
+                        </div>
+                    </div>
+                    <br>
+
+                    <!-- Product 6 - T-shirt Noir Nouveau -->
+                    <div class="card-hover bg-gray-50 dark:bg-gray-800 rounded-2xl p-6 shadow-lg animate-fade-in-scale delay-400 product-card">
+                        <div class="relative">
+                            <span class="badge badge-limited absolute top-4 left-4 z-10">Édition Limitée</span>
+                        </div>
+                        <div class="relative h-96 mb-6 overflow-hidden rounded-xl">
+                            <!-- Image principale du t-shirt noir -->
+                            <div class="image-container" id="blackShirtContainer3">
+                                <img src="image/Gemini_Generated_Image_xl7553xl7553xl75.png" 
+                                     alt="T-shirt OBVX Noir Édition Limitée - Face" 
+                                     class="w-full h-full object-cover"
+                                     id="blackMainImage3">
+                                
+                                <div class="image-overlay">
+                                    <span class="text-white font-semibold">T-shirt Noir - Édition Limitée</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Mini galerie d'images -->
+                            <div class="thumbnail-container">
+                                <div class="thumbnail active" onclick="changeProductImage('black3', 'face')">
+                                    <img src="image/Gemini_Generated_Image_xl7553xl7553xl75.png" 
+                                         alt="T-shirt Noir Face" 
+                                         class="w-full h-full object-cover">
+                                </div>
+                                <div class="thumbnail" onclick="changeProductImage('black3', 'back')">
+                                    <img src="image/Gemini_Generated_Image_kryhp0kryhp0kryh.png" 
+                                         alt="T-shirt Noir Dos" 
+                                         class="w-full h-full object-cover">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h3 class="text-2xl font-bold mb-2">T-shirt OBVX Noir Édition Limitée</h3>
+                        
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">
+                            Pièce en édition limitée avec logo "OBVX" sur la poitrine et design exclusif 
+                            au dos. 100% coton, coupe moderne et confortable.
+                        </p>
+                        
+                        <div class="size-selector">
+                            <div class="size-option selected" onclick="selectSize(this, 'M')">M</div>
+                            <div class="size-option" onclick="selectSize(this, 'L')">L</div>
+                            <div class="size-option" onclick="selectSize(this, 'XL')">XL</div>
+                        </div>
+                        
+                        <div class="space-y-3 mb-6">
+                            <div class="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                                <i class="fas fa-check text-amber-500 mr-2"></i>
+                                <span>100% coton</span>
+                            </div>
+                            <div class="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                                <i class="fas fa-check text-amber-500 mr-2"></i>
+                                <span>Impression haute qualité</span>
+                            </div>
+                            <div class="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                                <i class="fas fa-check text-amber-500 mr-2"></i>
+                                <span>Coupe loose fit</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <span class="text-2xl font-bold text-amber-500">10 000 FCFA</span>
+                            </div>
+                            <button onclick="addToCart('black3', 'T-shirt OBVX Noir Édition Limitée', 10000)" 
+                                    class="btn-add-cart">
+                                <i class="fas fa-cart-plus"></i>
+                                <span>Ajouter au panier</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="card-hover bg-gray-50 dark:bg-gray-800 rounded-2xl p-6 shadow-lg animate-fade-in-scale delay-400 product-card">
+                        <div class="relative">
+                            <span class="badge badge-limited absolute top-4 left-4 z-10">Édition Limitée</span>
+                        </div>
+                        <div class="relative h-96 mb-6 overflow-hidden rounded-xl">
+                            <!-- Image principale du t-shirt noir -->
+                            <div class="image-container" id="pinkShirtContainer">
+                                <img src="image/Gemini_Generated_Image_s0bk4ws0bk4ws0bk.png" 
+                                     alt="T-shirt OBVX Rose Édition Limitée - Face" 
+                                     class="w-full h-full object-cover"
+                                     id="pinkMainImage">
+                                
+                                <div class="image-overlay">
+                                    <span class="text-white font-semibold">T-shirt Rose - Édition Limitée</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Mini galerie d'images -->
+                            <div class="thumbnail-container">
+                                <div class="thumbnail active" onclick="changeProductImage('pink', 'face')">
+                                    <img src="image/Gemini_Generated_Image_s0bk4ws0bk4ws0bk.png" 
+                                         alt="T-shirt Rose Face" 
+                                         class="w-full h-full object-cover">
+                                </div>
+                                <div class="thumbnail" onclick="changeProductImage('pink', 'back')">
+                                    <img src="image/Gemini_Generated_Image_h2h7chh2h7chh2h7.png" 
+                                         alt="T-shirt Rose Dos" 
+                                         class="w-full h-full object-cover">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h3 class="text-2xl font-bold mb-2">T-shirt OBVX rose Édition Limitée</h3>
+                        
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">
+                            T-shirt OBVX rose en édition limitée avec logo "OBVX" sur la poitrine
+                            et visuel papillon au dos. 
+                            Une pièce unique qui mélange douceur et identité urbaine.
+                        </p>
+                        
+                        <div class="size-selector">
+                            <div class="size-option selected" onclick="selectSize(this, 'M')">M</div>
+                            <div class="size-option" onclick="selectSize(this, 'L')">L</div>
+                            <div class="size-option" onclick="selectSize(this, 'XL')">XL</div>
+                        </div>
+                        
+                        <div class="space-y-3 mb-6">
+                            <div class="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                                <i class="fas fa-check text-amber-500 mr-2"></i>
+                                <span>100% coton</span>
+                            </div>
+                            <div class="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                                <i class="fas fa-check text-amber-500 mr-2"></i>
+                                <span>Impression haute qualité</span>
+                            </div>
+                            <div class="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                                <i class="fas fa-check text-amber-500 mr-2"></i>
+                                <span>Coupe loose fit</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <span class="text-2xl font-bold text-amber-500">10 000 FCFA</span>
+                            </div>
+                            <button onclick="addToCart('pink', 'T-shirt OBVX rose Édition Limitée', 10000)" 
+                                    class="btn-add-cart">
+                                <i class="fas fa-cart-plus"></i>
+                                <span>Ajouter au panier</span>
+                            </button>
+                        </div>
+                    </div>
+
+
+                    
+
+                    <div class="card-hover bg-gray-50 dark:bg-gray-800 rounded-2xl p-6 shadow-lg animate-fade-in-scale delay-400 product-card">
+                        <div class="relative">
+                            <span class="badge badge-limited absolute top-4 left-4 z-10">Édition Limitée</span>
+                        </div>
+                        <div class="relative h-96 mb-6 overflow-hidden rounded-xl">
+                            <!-- Image principale du t-shirt noir -->
+                            <div class="image-container" id="white2ShirtContainer">
+                                <img src="image/Gemini_Generated_Image_2.png" 
+                                     alt="T-shirt OBVX Blanc Édition Limitée - Face" 
+                                     class="w-full h-full object-cover"
+                                     id="white2MainImage">
+                                
+                                <div class="image-overlay">
+                                    <span class="text-white font-semibold">T-shirt Blanc Freedom - Édition Limitée</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Mini galerie d'images -->
+                            <div class="thumbnail-container">
+                                <div class="thumbnail active" onclick="changeProductImage('white2', 'face')">
+                                    <img src="image/Gemini_Generated_Image_2.png" 
+                                         alt="T-shirt Blanc Freedom Face" 
+                                         class="w-full h-full object-cover">
+                                </div>
+                                <div class="thumbnail" onclick="changeProductImage('white2', 'back')">
+                                    <img src="image/Gemini_Generated_Image2.png" 
+                                         alt="T-shirt Blanc Freedom Dos" 
+                                         class="w-full h-full object-cover">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h3 class="text-2xl font-bold mb-2">T-shirt OBVX Blanc Édition Limitée</h3>
+                        
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">
+                            T-shirt OBVX oversize en 100% coton, confortable et durable.
+                            Logo OBVX discret à l'avant, graphisme graffiti fort à l'arrière.
+                            Pensée pour ceux qui assument leur style.
+                        </p>
+                        
+                        <div class="size-selector">
+                            <div class="size-option selected" onclick="selectSize(this, 'M')">M</div>
+                            <div class="size-option" onclick="selectSize(this, 'L')">L</div>
+                            <div class="size-option" onclick="selectSize(this, 'XL')">XL</div>
+                        </div>
+                        
+                        <div class="space-y-3 mb-6">
+                            <div class="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                                <i class="fas fa-check text-amber-500 mr-2"></i>
+                                <span>100% coton</span>
+                            </div>
+                            <div class="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                                <i class="fas fa-check text-amber-500 mr-2"></i>
+                                <span>Impression haute qualité</span>
+                            </div>
+                            <div class="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                                <i class="fas fa-check text-amber-500 mr-2"></i>
+                                <span>Coupe loose fit</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <span class="text-2xl font-bold text-amber-500">10 000 FCFA</span>
+                            </div>
+                            <button onclick="addToCart('white2', 'T-shirt OBVX Blanc Édition Limitée', 12000)" 
+                                    class="btn-add-cart">
+                                <i class="fas fa-cart-plus"></i>
+                                <span>Ajouter au panier</span>
+                            </button>
+                        </div>
+                    </div>
+
+
+                    
+
+        
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-20 bg-gray-900 text-white">
+            <div class="container mx-auto px-4">
+                <div class="grid md:grid-cols-2 gap-12">
+                    <!-- Contact Info -->
+                    <div class="animate-slide-left">
+                        <h2 class="text-4xl font-bold mb-8">
+                            Contactez-<span class="text-amber-500">nous</span>
+                        </h2>
+                        
+                        <div class="space-y-6">
+                            <div class="flex items-start space-x-4">
+                                <div class="w-12 h-12 bg-gradient-to-r from-amber-500 to-orange-500 rounded-lg flex items-center justify-center animate-float">
+                                    <i class="fas fa-envelope text-white"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-lg mb-1">Email</h3>
+                                    <p class="text-gray-300">obvxindustry@gmail.com</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start space-x-4">
+                                <div class="w-12 h-12 bg-gradient-to-r from-amber-500 to-orange-500 rounded-lg flex items-center justify-center animate-float delay-200">
+                                    <i class="fas fa-phone text-white"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-lg mb-1">Téléphone</h3>
+                                    <p class="text-gray-300">+225 01 03 25 67 23</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start space-x-4">
+                                <div class="w-12 h-12 bg-gradient-to-r from-amber-500 to-orange-500 rounded-lg flex items-center justify-center animate-float delay-400">
+                                    <i class="fas fa-map-marker-alt text-white"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-lg mb-1">Adresse</h3>
+                                    <p class="text-gray-300">Rue 3936, Bingerville<br>Côte d'Ivoire</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Social Media -->
+                        <div class="mt-8">
+                            <h3 class="font-bold text-lg mb-4">Suivez-nous</h3>
+                            <div class="flex space-x-4">
+                                <a href="https://tiktok.com/@obvx_industry" target="_blank" 
+                                   class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-amber-500 transition-colors duration-300 hover:scale-110">
+                                    <i class="fab fa-tiktok"></i>
+                                </a>
+                                <a href="https://instagram.com/obvx_industry" target="_blank" 
+                                   class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-amber-500 transition-colors duration-300 hover:scale-110">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                                <button onclick="openWhatsAppContact()" 
+                                   class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-green-500 transition-colors duration-300 hover:scale-110">
+                                    <i class="fab fa-whatsapp"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Contact Form -->
+                    <div class="animate-slide-right">
+                        <form id="contactForm" class="space-y-6">
+                            <div>
+                                <label class="block text-sm font-medium mb-2">Nom</label>
+                                <input type="text" id="contactName" required class="form-input bg-gray-800 border-gray-700" placeholder="Votre nom">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium mb-2">Email</label>
+                                <input type="email" id="contactEmail" required class="form-input bg-gray-800 border-gray-700" placeholder="email@exemple.com">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium mb-2">Message</label>
+                                <textarea rows="4" id="message" required class="form-input bg-gray-800 border-gray-700" placeholder="Votre message..."></textarea>
+                            </div>
+                            
+                            <button type="submit" class="w-full btn-primary py-4 text-lg font-semibold">
+                                <span id="contactSubmitText">Envoyer le message</span>
+                                <i class="fas fa-paper-plane ml-2 animate-bounce-soft"></i>
+                            </button>
+                            
+                            <!-- WhatsApp Direct -->
+                            <div class="text-center mt-4">
+                                <button type="button" onclick="sendContactViaWhatsApp()" class="whatsapp-direct-button">
+                                    <i class="fab fa-whatsapp"></i>
+                                    <span>Envoyer via WhatsApp</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-black text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <!-- Brand -->
+                <div>
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-10 h-10 bg-gradient-to-r from-amber-500 to-orange-500 rounded-lg flex items-center justify-center">
+                            <span class="text-white font-bold text-xl">O</span>
+                        </div>
+                        <span class="text-2xl font-bold">BVX</span>
+                    </div>
+                    <p class="text-gray-400">
+                        Redéfinir la mode urbaine, une pièce à la fois.
+                    </p>
+                </div>
+                
+                <!-- Links -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Navigation</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="text-gray-400 hover:text-amber-500 transition-colors duration-300">Accueil</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-amber-500 transition-colors duration-300">À propos</a></li>
+                        <li><a href="#collection" class="text-gray-400 hover:text-amber-500 transition-colors duration-300">Boutique</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-amber-500 transition-colors duration-300">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Social -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Réseaux sociaux</h3>
+                    <div class="flex space-x-4">
+                        <a href="https://tiktok.com/@obvx_industry" target="_blank" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-amber-500 transition-colors duration-300 hover:scale-110">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
+                        <a href="https://instagram.com/obvx_industry" target="_blank" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-amber-500 transition-colors duration-300 hover:scale-110">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <button onclick="openWhatsAppContact()" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-green-500 transition-colors duration-300 hover:scale-110">
+                            <i class="fab fa-whatsapp"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Newsletter -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Newsletter</h3>
+                    <div class="flex">
+                        <input type="email" id="newsletterEmail" placeholder="Votre email" class="flex-1 px-4 py-2 rounded-l-lg bg-gray-800 border-0 focus:ring-2 focus:ring-amber-500 text-white">
+                        <button id="newsletterBtn" class="px-4 py-2 bg-amber-500 rounded-r-lg hover:bg-orange-500 transition-colors duration-300">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                    <p class="text-sm text-gray-400 mt-2">Recevez nos dernières nouvelles et offres exclusives.</p>
+                </div>
+            </div>
+            
+            <!-- Copyright -->
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 OBVX. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Configuration WhatsApp
+        const WHATSAPP_NUMBER = "2250103256723";
+        
+        // Images pour les produits
+        const productImages = {
+            black1: {
+                face: 'image/8a7ed00f007644ba9a32554bc2bdcdf8.jpg',
+                back: 'image/WhatsApp Image 2025-10-07 à 22.00.00_33611325.jpg'
+            },
+
+            black2: {
+                face: 'image/Gemini_Generated_Image_b180uob180uob181.png',
+                back: 'image/Gemini_Generated_Image_29uccr29uccr29ud.png'
+            },
+            white: {
+                face: 'image/ea6a578cc491471cbc6c13015da32584.jpg',
+                back: 'image/IMG-20251007-WA0182.jpg'
+            },
+
+            white3: {
+                face: 'image/Gemini_Generated_Image_gxko74gxko74gxko.png',
+                back: 'image/Gemini_Generated_Image_a222p9a222p9a222.png'
+            },
+
+            white4: {
+                face: 'image/Gemini_Generated_Image_30558w30558w3055.png',
+                back: 'image/Gemini_Generated_Image_9bbj0y9bbj0y9bbj.png'
+            },
+            black3: {
+                face: 'image/Gemini_Generated_Image_xl7553xl7553xl75.png',
+                back: 'image/Gemini_Generated_Image_kryhp0kryhp0kryh.png'
+            },
+
+            pink: {
+                face: 'image/Gemini_Generated_Image_s0bk4ws0bk4ws0bk.png',
+                back: 'image/Gemini_Generated_Image_h2h7chh2h7chh2h7.png'
+
+            },
+
+            white2: {
+                face: 'image/Gemini_Generated_Image_2.png',
+                back: 'image/Gemini_Generated_Image2.png'
+            }
+        };
+
+        // Variables globales
+        let cart = [];
+        const CART_KEY = 'obvx_cart';
+        let currentStep = 1;
+        let selectedPaymentMethod = '';
+        let selectedSizes = {}; // Pour stocker les tailles sélectionnées
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Loader
+            setTimeout(() => {
+                const loader = document.getElementById('loader');
+                loader.style.opacity = '0';
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                }, 500);
+                
+                initializeAnimations();
+            }, 2000);
+
+            // Charger le panier
+            loadCart();
+            updateCartDisplay();
+
+            // Theme Toggle
+            const themeToggle = document.getElementById('themeToggle');
+            themeToggle.addEventListener('click', () => {
+                document.documentElement.classList.toggle('dark');
+                updateThemeIcon();
+                showToast('Thème changé', 'success');
+            });
+
+            // Mobile Menu
+            const mobileMenuButton = document.getElementById('mobileMenuButton');
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+                mobileMenu.classList.toggle('animate-fade-in-scale');
+            });
+
+            // Smooth Scrolling
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        mobileMenu.classList.add('hidden');
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                        updateActiveNav(targetId);
+                    }
+                });
+            });
+
+            // Progress Bar
+            window.addEventListener('scroll', updateProgressBar);
+            
+            // Back to Top Button
+            const backToTop = document.getElementById('backToTop');
+            backToTop.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+            
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 300) {
+                    backToTop.classList.add('visible');
+                } else {
+                    backToTop.classList.remove('visible');
+                }
+            });
+
+            // Form Handling
+            const contactForm = document.getElementById('contactForm');
+            const newsletterBtn = document.getElementById('newsletterBtn');
+            
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    processContactForm();
+                });
+            }
+            
+            if (newsletterBtn) {
+                newsletterBtn.addEventListener('click', () => {
+                    processNewsletter();
+                });
+            }
+
+            // Cart Functionality
+            const cartButton = document.getElementById('cartButton');
+            const cartButtonMobile = document.getElementById('cartButtonMobile');
+            const cartClose = document.getElementById('cartClose');
+            const cartOverlay = document.getElementById('cartOverlay');
+            
+            if (cartButton) cartButton.addEventListener('click', openCart);
+            if (cartButtonMobile) cartButtonMobile.addEventListener('click', openCart);
+            if (cartClose) cartClose.addEventListener('click', closeCart);
+            if (cartOverlay) cartOverlay.addEventListener('click', closeCart);
+
+            // Initialize Intersection Observer
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-fade-in');
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -100px 0px' });
+            
+            document.querySelectorAll('section').forEach(section => observer.observe(section));
+            document.querySelectorAll('.product-card').forEach(card => observer.observe(card));
+            
+            // Initialize
+            initializeProductImages();
+            initializeRadioButtons();
+            initializeThumbnails();
+            
+            // Logo hover animation
+            const logoLink = document.getElementById('logoLink');
+            if (logoLink) {
+                logoLink.addEventListener('mouseenter', () => {
+                    logoLink.style.transform = 'scale(1.05) rotate(5deg)';
+                });
+                
+                logoLink.addEventListener('mouseleave', () => {
+                    logoLink.style.transform = 'scale(1) rotate(0deg)';
+                });
+            }
+        });
+
+        // ========== FONCTIONS DU PANIER ==========
+        function loadCart() {
+            const savedCart = localStorage.getItem(CART_KEY);
+            cart = savedCart ? JSON.parse(savedCart) : [];
+        }
+        
+        function saveCart() {
+            localStorage.setItem(CART_KEY, JSON.stringify(cart));
+        }
+        
+        function updateCartDisplay() {
+            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+            const cartCount = document.getElementById('cartCount');
+            const cartCountMobile = document.getElementById('cartCountMobile');
+            
+            if (cartCount) cartCount.textContent = totalItems;
+            if (cartCountMobile) cartCountMobile.textContent = totalItems;
+            
+            // Animation du badge
+            if (totalItems > 0) {
+                if (cartCount) {
+                    cartCount.style.transform = 'scale(1.2)';
+                    setTimeout(() => cartCount.style.transform = 'scale(1)', 300);
+                }
+                if (cartCountMobile) {
+                    cartCountMobile.style.transform = 'scale(1.2)';
+                    setTimeout(() => cartCountMobile.style.transform = 'scale(1)', 300);
+                }
+            }
+        }
+        
+        function selectSize(element, size) {
+            // Désélectionner toutes les tailles dans ce produit
+            const sizeSelector = element.parentElement;
+            sizeSelector.querySelectorAll('.size-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Sélectionner la taille cliquée
+            element.classList.add('selected');
+            
+            // Stocker la taille sélectionnée pour ce produit
+            const productCard = element.closest('.product-card');
+            const productId = productCard.querySelector('.btn-add-cart').getAttribute('onclick').match(/'([^']+)'/)[1];
+            selectedSizes[productId] = size;
+        }
+        
+        function addToCart(productId, productName, price) {
+            // Récupérer la taille sélectionnée
+            const size = selectedSizes[productId] || 'M';
+            
+            // Vérifier si le produit est déjà dans le panier
+            const existingItemIndex = cart.findIndex(item => 
+                item.productId === productId && item.size === size
+            );
+            
+            if (existingItemIndex > -1) {
+                // Augmenter la quantité
+                cart[existingItemIndex].quantity += 1;
+            } else {
+                // Ajouter un nouvel item
+                cart.push({
+                    productId: productId,
+                    name: productName,
+                    price: price,
+                    size: size,
+                    quantity: 1
+                });
+            }
+            
+            // Sauvegarder et mettre à jour
+            saveCart();
+            updateCartDisplay();
+            
+            // Afficher notification
+            showToast(`${productName} (${size}) ajouté au panier`, 'success');
+            
+            // Animation du bouton panier
+            const cartButton = document.getElementById('cartButton');
+            if (cartButton) {
+                cartButton.style.transform = 'scale(1.1)';
+                setTimeout(() => cartButton.style.transform = 'scale(1)', 300);
+            }
+        }
+        
+        function removeFromCart(index) {
+            if (index >= 0 && index < cart.length) {
+                const removedItem = cart.splice(index, 1)[0];
+                saveCart();
+                updateCartDisplay();
+                renderCartItems();
+                showToast(`${removedItem.name} retiré du panier`, 'success');
+            }
+        }
+        
+        function updateCartItemQuantity(index, newQuantity) {
+            if (index >= 0 && index < cart.length) {
+                if (newQuantity > 0) {
+                    cart[index].quantity = newQuantity;
+                } else {
+                    removeFromCart(index);
+                    return;
+                }
+                saveCart();
+                updateCartDisplay();
+                renderCartItems();
+            }
+        }
+        
+        function renderCartItems() {
+            const cartItemsList = document.getElementById('cartItemsList');
+            const cartFooter = document.getElementById('cartFooter');
+            const cartEmpty = document.getElementById('cartEmpty');
+            const orderFormContainer = document.getElementById('orderFormContainer');
+            
+            if (cart.length === 0) {
+                cartEmpty.style.display = 'block';
+                cartFooter.style.display = 'none';
+                orderFormContainer.style.display = 'none';
+                return;
+            }
+            
+            cartEmpty.style.display = 'none';
+            cartFooter.style.display = 'block';
+            orderFormContainer.style.display = 'block';
+            
+            // Calculer les totaux
+            const subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+            const shipping = 2000;
+            const total = subtotal + shipping;
+            
+            // Mettre à jour les totaux
+            document.getElementById('cartSubtotal').textContent = `${subtotal.toLocaleString()} FCFA`;
+            document.getElementById('cartTotal').textContent = `${total.toLocaleString()} FCFA`;
+            
+            // Rendre les items
+            let cartHTML = '';
+            cart.forEach((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                cartHTML += `
+                    <div class="cart-item animate-slide-up" style="animation-delay: ${index * 50}ms">
+                        <div class="cart-item-image">
+                            <img src="${productImages[item.productId]?.face || 'image/8a7ed00f007644ba9a32554bc2bdcdf8.jpg'}" 
+                                 alt="${item.name}" 
+                                 class="w-full h-full object-cover">
+                        </div>
+                        <div class="cart-item-details">
+                            <div>
+                                <h4 class="cart-item-title">${item.name}</h4>
+                                <div class="cart-item-size">Taille: ${item.size}</div>
+                                <div class="cart-item-price">${item.price.toLocaleString()} FCFA</div>
+                            </div>
+                            <div>
+                                <div class="cart-item-quantity">
+                                    <button class="quantity-btn" onclick="updateCartItemQuantity(${index}, ${item.quantity - 1})">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <input type="number" 
+                                           value="${item.quantity}" 
+                                           min="1" 
+                                           class="quantity-input" 
+                                           onchange="updateCartItemQuantity(${index}, parseInt(this.value))">
+                                    <button class="quantity-btn" onclick="updateCartItemQuantity(${index}, ${item.quantity + 1})">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                    <button class="cart-item-remove ml-4" onclick="removeFromCart(${index})">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                                <div class="text-sm text-gray-500 mt-2">
+                                    Total: <span class="font-semibold">${itemTotal.toLocaleString()} FCFA</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            cartItemsList.innerHTML = cartHTML;
+        }
+        
+        function openCart() {
+            const cartSidebar = document.getElementById('cartSidebar');
+            const cartOverlay = document.getElementById('cartOverlay');
+            
+            if (cartSidebar && cartOverlay) {
+                cartSidebar.classList.add('open');
+                cartOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                
+                // Réinitialiser les étapes
+                resetCheckoutSteps();
+                renderCartItems();
+            }
+        }
+        
+        function closeCart() {
+            const cartSidebar = document.getElementById('cartSidebar');
+            const cartOverlay = document.getElementById('cartOverlay');
+            
+            if (cartSidebar && cartOverlay) {
+                cartSidebar.classList.remove('open');
+                cartOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+        
+        function continueShopping() {
+            closeCart();
+            document.getElementById('collection').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // ========== GESTION DES ÉTAPES DE COMMANDE ==========
+        function resetCheckoutSteps() {
+            currentStep = 1;
+            updateStepDisplay();
+        }
+        
+        function updateStepDisplay() {
+            // Mettre à jour les indicateurs d'étape
+            document.querySelectorAll('.checkout-step').forEach((step, index) => {
+                if (index + 1 === currentStep) {
+                    step.classList.add('active');
+                } else {
+                    step.classList.remove('active');
+                }
+            });
+            
+            // Afficher/masquer le contenu des étapes
+            document.getElementById('stepCartContent').style.display = currentStep === 1 ? 'block' : 'none';
+            document.getElementById('stepInfoContent').style.display = currentStep === 2 ? 'block' : 'none';
+            document.getElementById('stepPaymentContent').style.display = currentStep === 3 ? 'block' : 'none';
+            
+            // Mettre à jour les boutons
+            const cartActions = document.getElementById('cartActions');
+            const completeOrderBtn = document.getElementById('completeOrderBtn');
+            const nextStepText = document.getElementById('nextStepText');
+            
+            if (currentStep === 3) {
+                cartActions.style.display = 'none';
+                completeOrderBtn.style.display = 'flex';
+                renderOrderSummary();
+            } else {
+                cartActions.style.display = 'flex';
+                completeOrderBtn.style.display = 'none';
+                nextStepText.textContent = currentStep === 2 ? 'Paiement' : 'Suivant';
+            }
+        }
+        
+        function nextStep() {
+            if (currentStep === 1) {
+                // Valider qu'il y a des articles
+                if (cart.length === 0) {
+                    showToast('Votre panier est vide', 'error');
+                    return;
+                }
+                currentStep = 2;
+            } else if (currentStep === 2) {
+                // Valider le formulaire d'informations
+                if (!validateCustomerInfo()) {
+                    return;
+                }
+                currentStep = 3;
+            }
+            updateStepDisplay();
+        }
+        
+        function prevStep() {
+            if (currentStep > 1) {
+                currentStep--;
+                updateStepDisplay();
+            }
+        }
+        
+        function validateCustomerInfo() {
+            const name = document.getElementById('customerName').value;
+            const email = document.getElementById('customerEmail').value;
+            const phone = document.getElementById('customerPhone').value;
+            const address = document.getElementById('customerAddress').value;
+            const city = document.getElementById('customerCity').value;
+            
+            if (!name || !email || !phone || !address || !city) {
+                showToast('Veuillez remplir tous les champs obligatoires', 'error');
+                return false;
+            }
+            
+            if (!validateEmail(email)) {
+                showToast('Veuillez entrer un email valide', 'error');
+                return false;
+            }
+            
+            return true;
+        }
+        
+        function selectPaymentMethod(method) {
+            selectedPaymentMethod = method;
+            
+            // Mettre à jour l'affichage
+            document.querySelectorAll('.payment-method').forEach(el => {
+                el.classList.remove('selected');
+            });
+            event.target.closest('.payment-method').classList.add('selected');
+        }
+        
+        function renderOrderSummary() {
+            const orderSummary = document.getElementById('orderSummary');
+            const subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+            const shipping = 2000;
+            const total = subtotal + shipping;
+            
+            let summaryHTML = `
+                <h5 class="font-bold mb-3">Récapitulatif de la commande</h5>
+                <div class="space-y-2">
+            `;
+            
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                summaryHTML += `
+                    <div class="flex justify-between text-sm">
+                        <span>${item.name} (${item.size}) × ${item.quantity}</span>
+                        <span>${itemTotal.toLocaleString()} FCFA</span>
+                    </div>
+                `;
+            });
+            
+            summaryHTML += `
+                    <div class="border-t pt-2 mt-2">
+                        <div class="flex justify-between">
+                            <span>Sous-total:</span>
+                            <span>${subtotal.toLocaleString()} FCFA</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Livraison:</span>
+                            <span>${shipping.toLocaleString()} FCFA</span>
+                        </div>
+                        <div class="flex justify-between font-bold text-lg mt-2">
+                            <span>Total:</span>
+                            <span class="text-amber-500">${total.toLocaleString()} FCFA</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            orderSummary.innerHTML = summaryHTML;
+        }
+        
+        function completeOrder() {
+            if (!selectedPaymentMethod) {
+                showToast('Veuillez sélectionner une méthode de paiement', 'error');
+                return;
+            }
+            
+            // Récupérer les informations client
+            const customerInfo = {
+                name: document.getElementById('customerName').value,
+                email: document.getElementById('customerEmail').value,
+                phone: document.getElementById('customerPhone').value,
+                address: document.getElementById('customerAddress').value,
+                city: document.getElementById('customerCity').value,
+                notes: document.getElementById('orderNotes').value
+            };
+            
+            // Calculer les totaux
+            const subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+            const shipping = 2000;
+            const total = subtotal + shipping;
+            
+            // Créer le message pour la commande
+            const orderId = 'OBVX-' + Date.now().toString().slice(-6);
+            const date = new Date().toLocaleString('fr-FR');
+            
+            let message = `🛒 *NOUVELLE COMMANDE OBVX* 🛒\n\n`;
+            message += `📋 *Commande #${orderId}*\n`;
+            message += `📅 *Date:* ${date}\n\n`;
+            
+            message += `👤 *INFORMATIONS CLIENT*\n`;
+            message += `   • Nom: ${customerInfo.name}\n`;
+            message += `   • Email: ${customerInfo.email}\n`;
+            message += `   • Téléphone: ${customerInfo.phone}\n`;
+            message += `   • Adresse: ${customerInfo.address}\n`;
+            message += `   • Ville: ${customerInfo.city}\n`;
+            if (customerInfo.notes) {
+                message += `   • Notes: ${customerInfo.notes}\n`;
+            }
+            
+            message += `\n📦 *DÉTAILS DE LA COMMANDE*\n`;
+            cart.forEach((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                message += `${index + 1}. ${item.name} (Taille: ${item.size})\n`;
+                message += `   Quantité: ${item.quantity} × ${item.price.toLocaleString()} FCFA = ${itemTotal.toLocaleString()} FCFA\n\n`;
+            });
+            
+            message += `💰 *RÉCAPITULATIF*\n`;
+            message += `   • Sous-total: ${subtotal.toLocaleString()} FCFA\n`;
+            message += `   • Livraison: ${shipping.toLocaleString()} FCFA\n`;
+            message += `   • Total: ${total.toLocaleString()} FCFA\n\n`;
+            
+            message += `💳 *MÉTHODE DE PAIEMENT*\n`;
+            message += `   ${selectedPaymentMethod === 'whatsapp' ? 'WhatsApp (Paiement sécurisé)' : 'Paiement à la livraison (Cash)'}\n\n`;
+            
+            message += `🚚 *INFORMATIONS DE LIVRAISON*\n`;
+            message += `   • Adresse: ${customerInfo.address}\n`;
+            message += `   • Ville: ${customerInfo.city}\n\n`;
+            
+            message += `➖➖➖➖➖➖➖➖➖➖\n`;
+            message += `Merci pour votre commande ! L'équipe OBVX vous contactera pour confirmer.`;
+            
+            // Envoyer via WhatsApp
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappURL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
+            
+            // Ouvrir WhatsApp
+            window.open(whatsappURL, '_blank');
+            
+            // Afficher confirmation
+            showToast('Commande envoyée avec succès !', 'success');
+            
+            // Optionnel: Vider le panier
+            // cart = [];
+            // saveCart();
+            // updateCartDisplay();
+            // closeCart();
+            // resetCheckoutSteps();
+            
+            // Réinitialiser le formulaire
+            document.getElementById('customerInfoForm').reset();
+            selectedPaymentMethod = '';
+            document.querySelectorAll('.payment-method').forEach(el => el.classList.remove('selected'));
+        }
+
+        // ========== FONCTIONS HELPER ==========
+        function initializeAnimations() {
+            document.querySelectorAll('.animate-on-load').forEach((el, index) => {
+                el.style.animationDelay = `${index * 100}ms`;
+            });
+        }
+        
+        function initializeProductImages() {
+            Object.values(productImages).forEach(images => {
+                Object.values(images).forEach(src => {
+                    const img = new Image();
+                    img.src = src;
+                });
+            });
+        }
+        
+        function initializeRadioButtons() {
+            document.querySelectorAll('.radio-option input[type="radio"]').forEach(radio => {
+                if (radio.checked) {
+                    const div = radio.nextElementSibling;
+                    if (div) {
+                        div.classList.add('border-amber-500', 'bg-amber-50', 'dark:bg-amber-900/20');
+                    }
+                }
+            });
+        }
+        
+        function initializeThumbnails() {
+            document.querySelectorAll('.thumbnail').forEach(thumbnail => {
+                thumbnail.addEventListener('click', function() {
+                    const container = this.closest('.thumbnail-container');
+                    container.querySelectorAll('.thumbnail').forEach(thumb => {
+                        thumb.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                });
+            });
+        }
+
+        function changeProductImage(product, view) {
+            let mainImageId, containerId;
+            
+            switch(product) {
+                case 'black1':
+                    mainImageId = 'blackMainImage1';
+                    containerId = 'blackShirtContainer1';
+                    break;
+
+                case 'black2':
+                    mainImageId = 'blackMainImage2';
+                    containerId = 'blackShirtContainer2';
+                    break;
+
+                case 'white':
+                    mainImageId = 'whiteMainImage';
+                    containerId = 'whiteShirtContainer';
+                    break;
+
+                case 'white3':
+                    mainImageId = 'white3MainImage';
+                    containerId = 'white3ShirtContainer';
+                    break;
+
+                case 'white4':
+                    mainImageId = 'white4MainImage';
+                    containerId = 'white4ShirtContainer';
+                    break;
+
+                case 'black3':
+                    mainImageId = 'blackMainImage3';
+                    containerId = 'blackShirtContainer3';
+                    break;
+                case 'pink':
+                    mainImageId = 'pinkMainImage';
+                    containerId = 'pinkShirtContainer';
+                    break;
+
+                case 'white2':
+                    mainImageId = 'white2MainImage';
+                    containerId = 'white2ShirtContainer';
+                    break;
+                default:
+                    return;
+            }
+            
+            const mainImage = document.getElementById(mainImageId);
+            const container = document.getElementById(containerId);
+            
+            if (mainImage && productImages[product] && productImages[product][view]) {
+                mainImage.style.opacity = '0.3';
+                mainImage.style.transition = 'opacity 0.3s ease';
+                
+                setTimeout(() => {
+                    mainImage.src = productImages[product][view];
+                    mainImage.alt = getProductAltText(product, view);
+                    
+                    mainImage.onload = function() {
+                        this.style.opacity = '1';
+                    };
+                    
+                    setTimeout(() => {
+                        if (mainImage.complete) mainImage.style.opacity = '1';
+                    }, 100);
+                }, 200);
+                
+                if (container) {
+                    const thumbnails = container.querySelectorAll('.thumbnail');
+                    thumbnails.forEach((thumb, index) => {
+                        thumb.classList.remove('active');
+                        if ((view === 'face' && index === 0) || (view === 'back' && index === 1)) {
+                            thumb.classList.add('active');
+                        }
+                    });
+                }
+            }
+        }
+        
+        function getProductAltText(product, view) {
+            const viewText = view === 'face' ? 'Face' : 'Dos';
+            switch(product) {
+                case 'black1': return `T-shirt OBVX Noir - ${viewText}`;
+                case 'black2': return `T-shirt OBVX Noir Premium - ${viewText}`;
+                case 'white': return `T-shirt OBVX Blanc - ${viewText}`;
+                case 'white3': return `T-shirt OBVX Blanc Street Culture - ${viewText}`;
+                case 'white4': return `T-shirt OBVX Blanc Urban Vibes - ${viewText}`;
+                case 'black3': return `T-shirt OBVX Noir Édition Limitée - ${viewText}`;
+                case 'pink': return `T-shirt OBVX Rose - ${viewText}`;
+                case 'white2': return `T-shirt OBVX Blanc Édition Spéciale - ${viewText}`;
+                default: return `T-shirt OBVX - ${viewText}`;
+            }
+        }
+
+        // ========== FONCTIONS EXISTANTES (Contact, Newsletter, etc.) ==========
+        function processContactForm() {
+            const submitBtn = document.querySelector('#contactForm button[type="submit"]');
+            const submitText = document.getElementById('contactSubmitText');
+            
+            const name = document.getElementById('contactName').value;
+            const email = document.getElementById('contactEmail').value;
+            const message = document.getElementById('message').value;
+            
+            if (!name || !email || !message) {
+                showToast('Veuillez remplir tous les champs', 'error');
+                return;
+            }
+            
+            submitBtn.classList.add('loading');
+            submitText.textContent = 'Préparation...';
+            submitBtn.disabled = true;
+            
+            const contactData = {
+                name: name,
+                email: email,
+                message: message,
+                type: 'contact'
+            };
+            
+            setTimeout(() => {
+                submitBtn.classList.remove('loading');
+                submitBtn.disabled = false;
+                const success = sendToWhatsApp(contactData);
+                
+                if (success) {
+                    submitText.textContent = 'Message envoyé !';
+                    submitBtn.classList.add('bg-green-500');
+                    
+                    setTimeout(() => {
+                        submitText.textContent = 'Envoyer le message';
+                        submitBtn.classList.remove('bg-green-500');
+                        document.getElementById('contactForm').reset();
+                        showToast(`Merci ${name} ! Nous vous répondrons rapidement.`, 'success');
+                    }, 2000);
+                } else {
+                    submitText.textContent = 'Envoyer le message';
+                    showToast('Erreur lors de l\'envoi', 'error');
+                }
+            }, 1000);
+        }
+
+        function sendContactViaWhatsApp() {
+            const name = document.getElementById('contactName').value || '';
+            const email = document.getElementById('contactEmail').value || '';
+            const message = document.getElementById('message').value || '';
+            
+            if (!name || !email || !message) {
+                showToast('Veuillez remplir tous les champs d\'abord', 'error');
+                document.getElementById('contactName').focus();
+                return false;
+            }
+            
+            const contactData = {
+                name: name,
+                email: email,
+                message: message,
+                type: 'contact'
+            };
+            
+            return sendToWhatsApp(contactData);
+        }
+
+        function processNewsletter() {
+            const emailInput = document.getElementById('newsletterEmail');
+            const newsletterBtn = document.getElementById('newsletterBtn');
+            const email = emailInput.value;
+            
+            if (email && validateEmail(email)) {
+                newsletterBtn.classList.add('loading');
+                
+                const newsletterData = {
+                    email: email,
+                    type: 'newsletter'
+                };
+                
+                setTimeout(() => {
+                    newsletterBtn.classList.remove('loading');
+                    const success = sendToWhatsApp(newsletterData);
+                    
+                    if (success) {
+                        emailInput.value = '';
+                        showToast('Merci pour votre inscription !', 'success');
+                    } else {
+                        showToast('Erreur lors de l\'envoi', 'error');
+                    }
+                }, 1000);
+            } else {
+                showToast('Veuillez entrer une adresse email valide', 'error');
+            }
+        }
+
+        function openWhatsAppContact() {
+            const message = `Bonjour OBVX ! 👋
+
+Je souhaite vous contacter pour plus d'informations.
+
+Pouvez-vous me renseigner sur :
+- Les produits disponibles
+- Les tailles en stock
+- Les délais de livraison
+- Les conditions de paiement
+
+Merci !`;
+            
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappURL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
+            window.open(whatsappURL, '_blank');
+        }
+
+        function sendToWhatsApp(data) {
+            try {
+                let message = '';
+                const date = new Date().toLocaleString('fr-FR');
+                
+                switch(data.type) {
+                    case 'contact':
+                        message = `📞 *NOUVEAU MESSAGE DE CONTACT OBVX* 📞
+
+👤 *De:* ${data.name}
+📧 *Email:* ${data.email}
+
+💬 *Message:*
+${data.message}
+
+🕐 *Date:* ${date}
+
+➖➖➖➖➖➖➖➖➖➖
+*À répondre dans les 24h* ⏰`;
+                        break;
+                        
+                    case 'newsletter':
+                        message = `📰 *NOUVELLE INSCRIPTION NEWSLETTER OBVX* 📰
+
+📧 *Email:* ${data.email}
+
+🕐 *Date d'inscription:* ${date}
+
+➖➖➖➖➖➖➖➖➖➖
+*À ajouter à la liste de diffusion* 📋`;
+                        break;
+                }
+                
+                const encodedMessage = encodeURIComponent(message);
+                const whatsappURL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
+                
+                window.open(whatsappURL, '_blank');
+                showToast(data.type === 'contact' ? 'Message envoyé sur WhatsApp !' : 'Inscription envoyée !', 'success');
+                
+                return true;
+            } catch (error) {
+                console.error('Erreur WhatsApp:', error);
+                showToast('Erreur lors de la préparation du message', 'error');
+                return false;
+            }
+        }
+
+        function updateProgressBar() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            const progressBar = document.getElementById("progressBar");
+            if (progressBar) progressBar.style.width = scrolled + "%";
+        }
+
+        function updateThemeIcon() {
+            const themeToggle = document.getElementById('themeToggle');
+            if (!themeToggle) return;
+            
+            const icon = themeToggle.querySelector('i');
+            if (document.documentElement.classList.contains('dark')) {
+                icon.classList.remove('fa-sun', 'text-amber-500');
+                icon.classList.add('fa-moon', 'text-gray-300');
+            } else {
+                icon.classList.remove('fa-moon', 'text-gray-300');
+                icon.classList.add('fa-sun', 'text-amber-500');
+            }
+        }
+
+        function updateActiveNav(targetId) {
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active', 'text-amber-500', 'dark:text-amber-400');
+            });
+            
+            const activeLink = document.querySelector(`a[href="${targetId}"]`);
+            if (activeLink) {
+                activeLink.classList.add('active', 'text-amber-500', 'dark:text-amber-400');
+            }
+        }
+
+        function showToast(message, type = 'success') {
+            const toastContainer = document.getElementById('toastContainer');
+            if (!toastContainer) return;
+            
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'} ${type === 'success' ? 'text-green-500' : 'text-red-500'}"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            toastContainer.appendChild(toast);
+            
+            setTimeout(() => toast.classList.add('show'), 10);
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    if (toast.parentNode === toastContainer) {
+                        toastContainer.removeChild(toast);
+                    }
+                }, 500);
+            }, 3000);
+        }
+
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        document.addEventListener('change', function(e) {
+            if (e.target.name === 'product') {
+                document.querySelectorAll('.radio-option').forEach(option => {
+                    const div = option.querySelector('div');
+                    if (option.contains(e.target)) {
+                        div.classList.add('border-amber-500', 'bg-amber-50', 'dark:bg-amber-900/20');
+                    } else {
+                        div.classList.remove('border-amber-500', 'bg-amber-50', 'dark:bg-amber-900/20');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
