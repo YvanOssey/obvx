@@ -15,4 +15,8 @@ public interface ProductRepository extends JpaRepository<Product, String> {
 
     @EntityGraph(attributePaths = "sizes")
     Optional<Product> findByIdAndActiveTrue(String id);
+
+    /** Tous les produits, y compris masqués (espace admin). */
+    @EntityGraph(attributePaths = "sizes")
+    List<Product> findAllByOrderByNameAsc();
 }

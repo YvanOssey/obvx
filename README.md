@@ -43,6 +43,8 @@ Guide pas à pas (Neon, Render, Vercel) : **[DEPLOIEMENT.md](DEPLOIEMENT.md)**.
 | `DB_username` / `DB_password` | Identifiants de la base |
 | `JWT_SECRET` | Clé de signature des sessions, 32 caractères minimum, secrète |
 | `CORS_ORIGINS` | Adresses du site autorisées, séparées par des virgules |
+| `ADMIN_EMAILS` | Emails des comptes administrateurs (accès à `/admin`) |
+| `CLOUDINARY_URL` | Optionnel : envoi des photos produits depuis l'admin |
 | `PORT` | Port d'écoute (8080 par défaut) |
 
 Au démarrage, l'API crée le catalogue s'il est vide et complète les produits existants (tailles, images WebP).
@@ -58,6 +60,22 @@ Au démarrage, l'API crée le catalogue s'il est vide et complète les produits 
 | `GET` | `/api/products`, `/api/products/{id}` | public |
 | `POST` | `/api/orders` | connecté — prix et tailles vérifiés par le serveur |
 | `GET` | `/api/orders/me` | connecté |
+| `GET` | `/api/admin/summary`, `/api/admin/orders?status=&q=&page=` | admin |
+| `PATCH` | `/api/admin/orders/{id}/status` | admin |
+| `GET` `POST` `PUT` | `/api/admin/products`, `/api/admin/products/{id}` | admin |
+| `POST` | `/api/admin/uploads` (photo, 5 Mo max) | admin |
+
+## Espace admin
+
+Le site propose `/admin` aux comptes dont l'email figure dans `ADMIN_EMAILS` :
+
+- **Commandes** : chiffres clés, recherche (nom, email, téléphone, n°), filtre par statut,
+  coordonnées du client (appel, WhatsApp), changement de statut
+  (en attente → confirmée → en livraison → livrée, ou annulée).
+- **Produits** : création, modification (prix, tailles, photos, badge « Nouveau »),
+  masquage sans suppression (l'historique des commandes reste intact).
+
+En local (profil `dev`), crée un compte avec l'email `admin@obvx.dev` pour accéder à l'admin.
 
 ## Licence
 

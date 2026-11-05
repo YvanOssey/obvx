@@ -67,6 +67,13 @@ export const Navbar = () => {
                 À propos
               </NavLink>
             </li>
+            {user?.admin && (
+              <li>
+                <NavLink to="/admin" className={desktopLinkClass}>
+                  Admin
+                </NavLink>
+              </li>
+            )}
           </ul>
 
           <div className="flex items-center gap-1 sm:gap-2">
@@ -149,6 +156,13 @@ export const Navbar = () => {
                   {user ? `Mon compte (${user.firstName})` : "Mon compte"}
                 </NavLink>
               </li>
+              {user?.admin && (
+                <li>
+                  <NavLink to="/admin" onClick={closeMenu} className={mobileLinkClass}>
+                    Admin
+                  </NavLink>
+                </li>
+              )}
             </ul>
           </div>
         </div>

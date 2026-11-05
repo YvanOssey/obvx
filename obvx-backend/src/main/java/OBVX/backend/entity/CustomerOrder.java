@@ -33,9 +33,20 @@ public class CustomerOrder {
 
     @Column(nullable = false)
     @Builder.Default
-    private String status = "EN_ATTENTE";
+    private String status = OrderStatus.EN_ATTENTE.name();
+
+    // Coordonnées de livraison (nullables pour les commandes passées avant leur ajout)
+    @Column(length = 30)
+    private String phone;
+
+    @Column(length = 300)
+    private String address;
+
+    @Column(length = 500)
+    private String note;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    @org.hibernate.annotations.BatchSize(size = 50)
     @Builder.Default
     private List<OrderItem> items = new ArrayList<>();
 }

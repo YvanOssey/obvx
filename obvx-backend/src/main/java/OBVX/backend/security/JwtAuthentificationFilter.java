@@ -11,13 +11,16 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.Collections;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
 public class JwtAuthentificationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
+    private final AdminAccess adminAccess;
 
     @Override
     protected void doFilterInternal(
@@ -46,7 +49,9 @@ public class JwtAuthentificationFilter extends OncePerRequestFilter {
                     new UsernamePasswordAuthenticationToken(
                             email,
                             null,
-                            Collections.emptyList()
+                            adminAccess.isAdmin(email)
+                                    ? List.of(new SimpleGrantedAuthority("ROLE_ADMIN"))
+                                    : List.of()
                     );
 
             SecurityContextHolder

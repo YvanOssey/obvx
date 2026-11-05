@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { Eye, EyeOff } from "lucide-react"
 import { usePageTitle } from "../hooks/usePageTitle"
+import { statusInfo } from "../lib/orderStatus"
 import { Link, useNavigate, useSearchParams } from "react-router-dom"
 import { useAuth } from "../context/AuthContext"
 import { api } from "../lib/api"
@@ -224,8 +225,10 @@ const OrderHistory = () => {
         <li key={order.id} className="py-6">
           <div className="flex flex-wrap items-baseline justify-between gap-2">
             <p className="text-sm font-semibold uppercase tracking-wide">Commande n° {order.id}</p>
-            <span className="bg-amber-100 px-2 py-1 text-xs font-semibold uppercase tracking-wide">
-              {order.status === "EN_ATTENTE" ? "En attente" : order.status}
+            <span
+              className={`px-2 py-1 text-xs font-semibold uppercase tracking-wide ${statusInfo(order.status).className}`}
+            >
+              {statusInfo(order.status).label}
             </span>
           </div>
           <p className="mt-1 text-xs text-black/60">{formatDate(order.createdAt)}</p>
@@ -241,6 +244,12 @@ const OrderHistory = () => {
             ))}
           </ul>
           <p className="mt-3 text-right text-sm font-semibold">Total : {formatPrice(order.total)}</p>
+          {order.address && (
+            <p className="mt-2 text-xs text-black/60">
+              Livraison : {order.address}
+              {order.phone && ` · ${order.phone}`}
+            </p>
+          )}
         </li>
       ))}
     </ul>

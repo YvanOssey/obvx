@@ -7,6 +7,8 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
+import org.springframework.web.multipart.support.MissingServletRequestPartException;
 
 import java.util.Map;
 
@@ -32,6 +34,16 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<Map<String, String>> handleUnreadable(HttpMessageNotReadableException e) {
         return ResponseEntity.badRequest().body(Map.of("message", "Requête invalide"));
+    }
+
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public ResponseEntity<Map<String, String>> handleTooLarge(MaxUploadSizeExceededException e) {
+        return ResponseEntity.badRequest().body(Map.of("message", "Photo trop lourde (5 Mo maximum)"));
+    }
+
+    @ExceptionHandler(MissingServletRequestPartException.class)
+    public ResponseEntity<Map<String, String>> handleMissingPart(MissingServletRequestPartException e) {
+        return ResponseEntity.badRequest().body(Map.of("message", "Aucun fichier reçu"));
     }
 
     @ExceptionHandler(Exception.class)
