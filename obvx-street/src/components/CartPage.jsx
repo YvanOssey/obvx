@@ -5,7 +5,11 @@ import { useAuth } from "../context/AuthContext"
 import { MAX_QUANTITY, useCart } from "../context/CartContext"
 import { api } from "../lib/api"
 import { formatPrice, formatSize } from "../lib/format"
+import { readStorage, writeStorage } from "../lib/storage"
 import { usePageTitle } from "../hooks/usePageTitle"
+
+const fieldClass =
+  "mt-2 min-h-12 w-full border border-black/30 bg-white px-4 text-base transition-colors hover:border-black/60 focus:border-black"
 
 const OrderConfirmation = ({ order }) => (
   <div className="border-y border-black/10 py-10">
@@ -41,10 +45,17 @@ export const CartPage = () => {
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState(null)
   const [order, setOrder] = useState(null)
+  // Coordonnées de la dernière commande, pour ne pas les retaper
+  const [contact, setContact] = useState(() =>
+    readStorage("obvx.contact", { phone: "", address: "", note: "" }),
+  )
+  const updateContact = (field) => (event) =>
+    setContact((current) => ({ ...current, [field]: event.target.value }))
 
   usePageTitle(order ? "Commande confirmée" : "Panier")
 
-  const checkout = async () => {
+  const checkout = async (event) => {
+    event?.preventDefault()
     if (!user) {
       navigate("/account?redirect=/cart")
       return
@@ -54,8 +65,10 @@ export const CartPage = () => {
     try {
       const created = await api.createOrder(
         items.map((item) => ({ productId: item.id, size: item.size, quantity: item.quantity })),
+        contact,
         token,
       )
+      writeStorage("obvx.contact", { phone: contact.phone, address: contact.address, note: "" })
       clearCart()
       setOrder(created)
     } catch (err) {
@@ -154,23 +167,105 @@ export const CartPage = () => {
               ))}
             </ul>
 
-            <div className="mt-8 flex flex-col items-start gap-5 sm:items-end">
+            <div className="mt-8 flex flex-col items-start gap-1 sm:items-end">
               <p className="price text-lg font-semibold uppercase">Total : {formatPrice(total)}</p>
-              <p className="-mt-3 text-xs text-black/60">Prix confirmé à la validation. Livraison et paiement organisés avec toi après la commande.</p>
-              {error && (
-                <p role="alert" className="border-l-2 border-red-600 bg-red-50 px-4 py-3 text-sm text-red-700">
-                  {error}
-                </p>
-              )}
-              <button
-                type="button"
-                onClick={checkout}
-                disabled={submitting}
-                className="inline-flex min-h-12 w-full items-center justify-center border border-black bg-black px-8 text-sm font-semibold uppercase tracking-wide text-white transition-colors hover:border-amber-700 hover:bg-amber-700 disabled:cursor-wait disabled:opacity-60 sm:w-auto"
-              >
-                {submitting ? "Envoi…" : user ? "Commander" : "Se connecter pour commander"}
-              </button>
+              <p className="text-xs text-black/60">Prix confirmé à la validation.</p>
             </div>
+
+            {user ? (
+              <form
+                onSubmit={checkout}
+                className="mt-10 border-t border-black/10 pt-8"
+                aria-labelledby="livraison-titre"
+              >
+                <h2 id="livraison-titre" className="text-lg font-bold uppercase tracking-tight">
+                  Livraison
+                </h2>
+                <p className="mt-1 text-sm text-black/60">
+                  L&apos;équipe OBVX t&apos;appelle sur ce numéro pour organiser la livraison et le
+                  paiement.
+                </p>
+                <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
+                  <label className="block">
+                    <span className="text-xs font-semibold uppercase tracking-wide text-black/75">
+                      Téléphone <span className="text-amber-700" aria-hidden="true">*</span>
+                    </span>
+                    <input
+                      type="tel"
+                      name="phone"
+                      autoComplete="tel"
+                      required
+                      pattern="[+]?[0-9 ().\-]{8,20}"
+                      title="8 à 20 chiffres ; espaces et + autorisés"
+                      value={contact.phone}
+                      onChange={updateContact("phone")}
+                      placeholder="+225 07 00 00 00 00"
+                      className={fieldClass}
+                    />
+                  </label>
+                  <label className="block">
+                    <span className="text-xs font-semibold uppercase tracking-wide text-black/75">
+                      Adresse de livraison <span className="text-amber-700" aria-hidden="true">*</span>
+                    </span>
+                    <input
+                      type="text"
+                      name="address"
+                      autoComplete="street-address"
+                      required
+                      maxLength={300}
+                      value={contact.address}
+                      onChange={updateContact("address")}
+                      placeholder="Ville, quartier, repère"
+                      className={fieldClass}
+                    />
+                  </label>
+                  <label className="block sm:col-span-2">
+                    <span className="text-xs font-semibold uppercase tracking-wide text-black/75">
+                      Note pour la livraison{" "}
+                      <span className="font-normal normal-case text-black/60">(facultatif)</span>
+                    </span>
+                    <textarea
+                      name="note"
+                      rows={2}
+                      maxLength={500}
+                      value={contact.note}
+                      onChange={updateContact("note")}
+                      placeholder="Ex. : disponible après 18 h"
+                      className={`${fieldClass} py-3`}
+                    />
+                  </label>
+                </div>
+
+                {error && (
+                  <p
+                    role="alert"
+                    className="mt-6 border-l-2 border-red-600 bg-red-50 px-4 py-3 text-sm text-red-700"
+                  >
+                    {error}
+                  </p>
+                )}
+
+                <div className="mt-8 flex justify-end">
+                  <button
+                    type="submit"
+                    disabled={submitting}
+                    className="inline-flex min-h-12 w-full items-center justify-center border border-black bg-black px-8 text-sm font-semibold uppercase tracking-wide text-white transition-colors hover:border-amber-700 hover:bg-amber-700 disabled:cursor-wait disabled:opacity-60 sm:w-auto"
+                  >
+                    {submitting ? "Envoi…" : `Commander · ${formatPrice(total)}`}
+                  </button>
+                </div>
+              </form>
+            ) : (
+              <div className="mt-8 flex justify-end">
+                <button
+                  type="button"
+                  onClick={() => checkout()}
+                  className="inline-flex min-h-12 w-full items-center justify-center border border-black bg-black px-8 text-sm font-semibold uppercase tracking-wide text-white transition-colors hover:border-amber-700 hover:bg-amber-700 sm:w-auto"
+                >
+                  Se connecter pour commander
+                </button>
+              </div>
+            )}
           </>
         )}
       </div>

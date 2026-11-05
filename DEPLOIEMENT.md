@@ -100,6 +100,26 @@ Si les produits ne s'affichent pas : ouvre la console du navigateur (F12). Une e
 
 ---
 
+## Espace admin
+
+1. Sur Render → **obvx-api → Environment**, ajoute `ADMIN_EMAILS` = ton email (plusieurs : séparés par des virgules), puis **Save Changes**.
+2. Sur le site, crée un compte avec **exactement cet email** (ou connecte-toi s'il existe déjà).
+3. Le lien **Admin** apparaît dans le menu → `/admin`.
+
+> Si le lien n'apparaît pas alors que tu étais déjà connecté : déconnecte-toi puis reconnecte-toi.
+
+### Photos produits (optionnel)
+
+Sans configuration, l'admin accepte l'adresse d'une image (ex. `/products/casquette.webp` ou un lien `https://…`). Pour envoyer des photos directement depuis l'admin :
+
+1. Crée un compte gratuit sur [cloudinary.com](https://cloudinary.com).
+2. Sur le tableau de bord Cloudinary, copie l'**API environment variable** (`cloudinary://clé:secret@nom`).
+3. Sur Render, ajoute `CLOUDINARY_URL` avec cette valeur (sans le préfixe `CLOUDINARY_URL=`).
+
+Les photos sont livrées automatiquement en format optimisé (WebP/AVIF, 1200 px maximum).
+
+---
+
 ## Nom de domaine (optionnel)
 
 - Site : Vercel → *Settings → Domains* → ajoute `obvx.com` et `www.obvx.com`, puis suis les instructions DNS.

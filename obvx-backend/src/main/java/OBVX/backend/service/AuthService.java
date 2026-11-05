@@ -6,6 +6,7 @@ import OBVX.backend.dto.response.AuthResponse;
 import OBVX.backend.entity.User;
 import OBVX.backend.exception.ApiException;
 import OBVX.backend.repository.UserRepository;
+import OBVX.backend.security.AdminAccess;
 import OBVX.backend.security.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,7 @@ public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+    private final AdminAccess adminAccess;
 
     public AuthResponse register(RegisterRequest request) {
 
@@ -68,6 +70,7 @@ public class AuthService {
                 .lastName(user.getLastName())
                 .email(user.getEmail())
                 .token(withToken ? jwtService.generateToken(user.getEmail()) : null)
+                .admin(adminAccess.isAdmin(user.getEmail()))
                 .build();
     }
 

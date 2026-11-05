@@ -46,6 +46,9 @@ public class OrderService {
                 .user(user)
                 .createdAt(Instant.now())
                 .total(0)
+                .phone(request.phone().trim())
+                .address(request.address().trim())
+                .note(request.note() == null || request.note().isBlank() ? null : request.note().trim())
                 .build();
 
         int total = 0;

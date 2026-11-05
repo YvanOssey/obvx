@@ -36,3 +36,8 @@ export const useProducts = () => {
 
   return { products, loading, error, retry }
 }
+
+// À appeler après une modification du catalogue (espace admin) pour recharger la boutique
+export const invalidateProducts = () => {
+  cachedProducts = null
+}
