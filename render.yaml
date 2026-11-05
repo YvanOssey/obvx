@@ -23,8 +23,11 @@ services:
         sync: false
       - key: CORS_ORIGINS
         sync: false
-      # Emails des administrateurs (accès à /admin), séparés par des virgules
-      - key: ADMIN_EMAILS
+      # Compte administrateur (connexion sur /admin/login), créé au démarrage
+      - key: ADMIN_EMAIL
+        sync: false
+      # 12 caractères minimum ; le modifier ici remplace le mot de passe admin
+      - key: ADMIN_PASSWORD
         sync: false
       # Optionnel : envoi des photos produits depuis l'admin (cloudinary://clé:secret@nom)
       - key: CLOUDINARY_URL

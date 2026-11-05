@@ -172,7 +172,12 @@ export const CartPage = () => {
               <p className="text-xs text-black/60">Prix confirmé à la validation.</p>
             </div>
 
-            {user ? (
+            {user?.admin ? (
+              <p className="mt-10 border-l-2 border-amber-700 bg-amber-50 px-4 py-3 text-sm text-black/75">
+                Tu es connecté en administrateur : ce compte ne peut pas passer de commande. Déconnecte-toi
+                depuis l&apos;espace admin et utilise un compte client.
+              </p>
+            ) : user ? (
               <form
                 onSubmit={checkout}
                 className="mt-10 border-t border-black/10 pt-8"

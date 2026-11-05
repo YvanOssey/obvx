@@ -77,6 +77,8 @@ export const Navbar = () => {
           </ul>
 
           <div className="flex items-center gap-1 sm:gap-2">
+            {!user?.admin && (
+            <>
             <Link
               className={`${iconButton} hidden md:flex md:w-auto md:gap-2 md:px-2`}
               to="/account"
@@ -101,6 +103,8 @@ export const Navbar = () => {
                 </span>
               )}
             </Link>
+            </>
+            )}
 
             <button
               type="button"
@@ -151,11 +155,13 @@ export const Navbar = () => {
                   À propos
                 </NavLink>
               </li>
-              <li>
-                <NavLink to="/account" onClick={closeMenu} className={mobileLinkClass}>
-                  {user ? `Mon compte (${user.firstName})` : "Mon compte"}
-                </NavLink>
-              </li>
+              {!user?.admin && (
+                <li>
+                  <NavLink to="/account" onClick={closeMenu} className={mobileLinkClass}>
+                    {user ? `Mon compte (${user.firstName})` : "Mon compte"}
+                  </NavLink>
+                </li>
+              )}
               {user?.admin && (
                 <li>
                   <NavLink to="/admin" onClick={closeMenu} className={mobileLinkClass}>

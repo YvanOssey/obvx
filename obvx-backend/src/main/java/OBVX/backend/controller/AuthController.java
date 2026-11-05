@@ -36,6 +36,11 @@ public class AuthController {
         return ResponseEntity.ok(response);
     }
 
+    @PostMapping("/admin/login")
+    public AuthResponse adminLogin(@Valid @RequestBody LoginRequest request) {
+        return authService.adminLogin(request);
+    }
+
     /** Profil de l'utilisateur connecté (token requis). */
     @GetMapping("/me")
     public AuthResponse me(Authentication authentication) {

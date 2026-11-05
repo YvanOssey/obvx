@@ -19,7 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.Map;
 
-/** Espace d'administration : réservé aux comptes listés dans ADMIN_EMAILS (voir SecurityConfig). */
+/** Espace d'administration : réservé au compte ADMIN_EMAIL (voir SecurityConfig et AdminBootstrap). */
 @RestController
 @RequestMapping("/api/admin")
 @RequiredArgsConstructor

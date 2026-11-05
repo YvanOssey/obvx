@@ -1,5 +1,5 @@
-import { Link, useSearchParams } from "react-router-dom"
-import { ClipboardList, Shirt } from "lucide-react"
+import { Link, Navigate, useSearchParams } from "react-router-dom"
+import { ClipboardList, LogOut, Shirt } from "lucide-react"
 import { useAuth } from "../../context/AuthContext"
 import { usePageTitle } from "../../hooks/usePageTitle"
 import { AdminOrders } from "./AdminOrders"
@@ -11,30 +11,24 @@ const TABS = [
 ]
 
 export const AdminPage = () => {
-  const { user } = useAuth()
+  const { user, logout } = useAuth()
   const [searchParams, setSearchParams] = useSearchParams()
   const tab = TABS.find((t) => t.key === searchParams.get("onglet")) ?? TABS[0]
 
   usePageTitle(`Admin · ${tab.label}`)
 
-  if (!user) {
-    return (
-      <Notice title="Espace administrateur">
-        Connecte-toi avec ton compte administrateur pour continuer.
-        <Link
-          to="/account?redirect=/admin"
-          className="mt-6 inline-flex min-h-12 items-center border border-black bg-black px-7 text-sm font-semibold uppercase tracking-wide text-white transition-colors hover:border-amber-700 hover:bg-amber-700"
-        >
-          Se connecter
-        </Link>
-      </Notice>
-    )
-  }
+  if (!user) return <Navigate to="/admin/login" replace />
 
   if (!user.admin) {
     return (
       <Notice title="Accès réservé">
-        Ce compte n&apos;a pas les droits d&apos;administration.
+        Cet espace est réservé à l&apos;administrateur de la boutique.
+        <Link
+          to="/admin/login"
+          className="mt-6 inline-flex min-h-12 items-center border border-black bg-black px-7 text-sm font-semibold uppercase tracking-wide text-white transition-colors hover:border-amber-700 hover:bg-amber-700"
+        >
+          Connexion administrateur
+        </Link>
       </Notice>
     )
   }
@@ -51,6 +45,7 @@ export const AdminPage = () => {
               {tab.label}
             </h1>
           </div>
+          <div className="flex flex-wrap items-center gap-3">
           <nav aria-label="Sections de l'admin" className="flex border border-black">
             {TABS.map((t) => {
               const Icon = t.icon
@@ -71,6 +66,15 @@ export const AdminPage = () => {
               )
             })}
           </nav>
+          <button
+            type="button"
+            onClick={logout}
+            className="inline-flex min-h-11 items-center gap-2 border border-black/20 px-4 text-xs font-semibold uppercase tracking-wide hover:border-black"
+          >
+            <LogOut size={16} aria-hidden="true" />
+            Déconnexion
+          </button>
+          </div>
         </div>
 
         <div className="mt-10">{tab.key === "commandes" ? <AdminOrders /> : <AdminProducts />}</div>
