@@ -1,18 +1,47 @@
-import { useState, useMemo } from "react"
-import { PRODUCTS } from "../constant/data"
+import { useMemo } from "react"
+import { useSearchParams } from "react-router-dom"
+import { useProducts } from "../hooks/useProducts"
+import { usePageTitle } from "../hooks/usePageTitle"
+import { LoadError, ProductCard, ProductGridSkeleton } from "./ProductCard"
 
-const formatPrice = (price) =>
-  new Intl.NumberFormat("fr-FR").format(price) + " FCFA"
+// Filtres disponibles, pilotés par l'URL (?filtre=...) pour que les liens du menu Boutique marchent.
+const FILTERS = [
+  { key: "tous", label: "Tous", title: "Toute la collection", match: () => true },
+  { key: "nouveautes", label: "Nouveautés", title: "Nouveautés", match: (p) => p.isNew },
+  { key: "vetements", label: "Vêtements", title: "Vêtements", match: (p) => p.category === "Vêtements" },
+  { key: "accessoires", label: "Accessoires", title: "Accessoires", match: (p) => p.category === "Accessoires" },
+]
 
-const CATEGORIES = ["Tous", "Vêtements", "Accessoires"]
+const SORTS = [
+  { key: "pertinence", label: "Pertinence", compare: null },
+  { key: "prix-croissant", label: "Prix croissant", compare: (a, b) => a.price - b.price },
+  { key: "prix-decroissant", label: "Prix décroissant", compare: (a, b) => b.price - a.price },
+  { key: "nom", label: "Nom (A → Z)", compare: (a, b) => a.name.localeCompare(b.name, "fr") },
+]
 
-export const CollectionsPage = ({ onAddToCart }) => {
-  const [activeCategory, setActiveCategory] = useState("Tous")
+export const CollectionsPage = () => {
+  const { products, loading, error, retry } = useProducts()
+  const [searchParams, setSearchParams] = useSearchParams()
+
+  const activeFilter =
+    FILTERS.find((filter) => filter.key === searchParams.get("filtre")) ?? FILTERS[0]
+
+  const activeSort = SORTS.find((sort) => sort.key === searchParams.get("tri")) ?? SORTS[0]
+
+  usePageTitle(activeFilter.title)
 
   const filteredProducts = useMemo(() => {
-    if (activeCategory === "Tous") return PRODUCTS
-    return PRODUCTS.filter((product) => product.category === activeCategory)
-  }, [activeCategory])
+    const list = products.filter(activeFilter.match)
+    return activeSort.compare ? [...list].sort(activeSort.compare) : list
+  }, [products, activeFilter, activeSort])
+
+  // Met à jour un paramètre de l'URL sans perdre les autres (filtre + tri partageables)
+  const updateParam = (key, value, defaultValue) => {
+    const next = new URLSearchParams(searchParams)
+    if (value === defaultValue) next.delete(key)
+    else next.set(key, value)
+    setSearchParams(next, { replace: true })
+  }
 
   return (
     <section className="bg-white">
@@ -21,75 +50,71 @@ export const CollectionsPage = ({ onAddToCart }) => {
           <span className="text-xs font-semibold uppercase tracking-widest text-amber-700">
             Boutique
           </span>
-          <h1 className="text-4xl font-bold uppercase leading-[0.95] tracking-tight sm:text-5xl">
-            Toute la collection
+          <h1 className="text-4xl font-extrabold uppercase leading-[0.95] tracking-tight sm:text-5xl">
+            {activeFilter.title}
           </h1>
-          <p className="max-w-md text-sm text-black/60">
-            {filteredProducts.length} produit{filteredProducts.length > 1 ? "s" : ""}
-          </p>
         </div>
 
-        <div className="mb-10 flex flex-wrap gap-3 border-b border-black/10 pb-6 sm:mb-14">
-          {CATEGORIES.map((category) => (
+        <div className="mb-10 flex flex-col gap-5 border-b border-black/10 pb-6 sm:mb-14 lg:flex-row lg:items-center lg:justify-between">
+        <div className="flex flex-wrap gap-2 sm:gap-3" role="group" aria-label="Filtrer les produits">
+          {FILTERS.map((filter) => (
             <button
-              key={category}
-              onClick={() => setActiveCategory(category)}
-              className={`border px-5 py-2 text-xs font-semibold uppercase tracking-wide transition-colors sm:text-sm ${
-                activeCategory === category
+              key={filter.key}
+              type="button"
+              aria-pressed={activeFilter.key === filter.key}
+              onClick={() => updateParam("filtre", filter.key, "tous")}
+              className={`inline-flex min-h-11 items-center border px-5 text-xs font-semibold uppercase tracking-wide transition-colors sm:text-sm ${
+                activeFilter.key === filter.key
                   ? "border-black bg-black text-white"
                   : "border-black/20 hover:border-amber-700 hover:text-amber-700"
               }`}
             >
-              {category}
+              {filter.label}
             </button>
           ))}
         </div>
 
-        {filteredProducts.length === 0 ? (
-          <p className="py-16 text-center text-sm text-black/50">
-            Aucun produit dans cette catégorie pour le moment.
-          </p>
+          <div className="flex items-center justify-between gap-4 lg:justify-end">
+            <p className="text-sm text-black/60" aria-live="polite">
+              {!loading && !error &&
+                `${filteredProducts.length} produit${filteredProducts.length > 1 ? "s" : ""}`}
+            </p>
+            <label className="flex items-center gap-2 text-sm">
+              <span className="text-black/60">Trier par</span>
+              <select
+                value={activeSort.key}
+                onChange={(event) => updateParam("tri", event.target.value, "pertinence")}
+                className="min-h-11 cursor-pointer border border-black/20 bg-white px-3 text-base font-medium hover:border-black sm:text-sm"
+              >
+                {SORTS.map((sort) => (
+                  <option key={sort.key} value={sort.key}>
+                    {sort.label}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+        </div>
+
+        {loading ? (
+          <ProductGridSkeleton />
+        ) : error ? (
+          <LoadError message={error} onRetry={retry} />
+        ) : filteredProducts.length === 0 ? (
+          <div className="py-16 text-center">
+            <p className="text-sm text-black/60">Aucun produit dans cette catégorie pour le moment.</p>
+            <button
+              type="button"
+              onClick={() => updateParam("filtre", "tous", "tous")}
+              className="mt-5 inline-flex min-h-11 items-center border border-black px-6 text-xs font-semibold uppercase tracking-wide transition-colors hover:border-amber-700 hover:bg-amber-700 hover:text-white"
+            >
+              Voir tous les produits
+            </button>
+          </div>
         ) : (
           <div className="grid grid-cols-2 gap-x-4 gap-y-10 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4">
-            {filteredProducts.map((product) => (
-              <a
-                key={product.id}
-                href={`/shop/${product.id}`}
-                className="group block"
-              >
-                <div className="relative overflow-hidden border border-black/10 bg-[#FFF8F0]">
-                  {product.isNew && (
-                    <span className="absolute left-3 top-3 z-10 bg-black px-2 py-1 text-[10px] font-semibold uppercase tracking-wide text-white">
-                      Nouveau
-                    </span>
-                  )}
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="aspect-[3/4] w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                  />
-                </div>
-
-                <div className="mt-3 space-y-1">
-                  <p className="text-[11px] uppercase tracking-wide text-black/50">
-                    {product.category}
-                  </p>
-                  <h3 className="font-montserrat text-sm font-semibold uppercase tracking-wide transition-colors group-hover:text-amber-700">
-                    {product.name}
-                  </h3>
-                  <p className="text-sm text-black/70">{formatPrice(product.price)}</p>
-                  <button
-                    type="button"
-                    onClick={(event) => {
-                      event.preventDefault()
-                      onAddToCart(product)
-                    }}
-                    className="mt-2 w-full border border-black bg-black px-3 py-2 text-[11px] font-semibold uppercase tracking-wide text-white transition-colors hover:border-amber-700 hover:bg-amber-700"
-                  >
-                    Ajouter au panier
-                  </button>
-                </div>
-              </a>
+            {filteredProducts.map((product, index) => (
+              <ProductCard key={product.id} product={product} priority={index < 4} />
             ))}
           </div>
         )}

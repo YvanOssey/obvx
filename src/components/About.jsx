@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom"
+import { usePageTitle } from "../hooks/usePageTitle"
 import aboutImage from "../assets/image/catalogues/catalogue-04.jpg"
 
 const VALUES = [
@@ -20,8 +21,9 @@ const VALUES = [
 ]
 
 export const About = () => {
+  usePageTitle("À propos")
   return (
-    <main id="apropos" className="bg-[#FFF8F0]">
+    <div id="apropos" className="bg-cream">
       <section className="border-b border-black/10">
         <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 px-6 py-16 sm:px-8 sm:py-24 lg:grid-cols-[0.9fr_1.1fr] lg:items-end lg:gap-20 lg:py-32">
           <div>
@@ -69,7 +71,7 @@ export const About = () => {
             </div>
             <Link
               to="/collections"
-              className="mt-9 w-fit border border-black bg-black px-7 py-3 text-sm font-semibold uppercase tracking-wide text-white transition-colors hover:border-amber-700 hover:bg-amber-700"
+              className="inline-flex min-h-12 items-center justify-center mt-9 w-fit border border-black bg-black px-7 text-sm font-semibold uppercase tracking-wide text-white transition-colors hover:border-amber-700 hover:bg-amber-700"
             >
               Découvrir la collection
             </Link>
@@ -78,6 +80,9 @@ export const About = () => {
             <img
               src={aboutImage}
               alt="Silhouette portant une pièce de la collection OBVX"
+              width={747}
+              height={1024}
+              loading="lazy"
               className="h-full w-full object-cover"
             />
           </div>
@@ -132,12 +137,12 @@ export const About = () => {
           </div>
           <Link
             to="/collections"
-            className="border border-white px-7 py-3 text-sm font-semibold uppercase tracking-wide transition-colors hover:border-amber-300 hover:bg-amber-300 hover:text-black"
+            className="inline-flex min-h-12 items-center justify-center border border-white px-7 text-sm font-semibold uppercase tracking-wide transition-colors hover:border-amber-300 hover:bg-amber-300 hover:text-black"
           >
             Shop maintenant
           </Link>
         </div>
       </section>
-    </main>
+    </div>
   )
 }

@@ -1,9 +1,87 @@
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Paytone+One&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 @import "tailwindcss";
 
+/* Charte OBVX : crème, noir, ambre. Utilisables en classes Tailwind (bg-cream, text-ink, text-accent…) */
 @theme {
-  --font-bebas: "Bebas Neue", sans-serif;
-  --font-montserrat: "Montserrat", sans-serif;
-  --font-inter: "Inter", sans-serif;
+  --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  --font-montserrat: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+
+  --color-cream: #fff8f0;
+  --color-ink: #0a0a0a;
+  --color-accent: #b45309; /* amber-700 : 4,9:1 sur crème, conforme AA */
+  --color-accent-soft: #fef3c7; /* amber-100 */
+  --color-danger: #b91c1c;
 }
 
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 6.5rem; /* les ancres ne passent pas sous l'en-tête fixe */
+  }
+
+  body {
+    @apply bg-cream text-ink antialiased;
+  }
+
+  /* Supprime le délai de 300 ms au toucher */
+  a,
+  button,
+  [role="button"],
+  input,
+  label {
+    touch-action: manipulation;
+  }
+
+  button:not(:disabled),
+  [role="button"],
+  [role="tab"] {
+    cursor: pointer;
+  }
+
+  /* Contour de focus clavier visible partout (WCAG 2.4.7) */
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+
+  /* Le contenu principal reçoit le focus à chaque changement de page, sans contour */
+  main:focus {
+    outline: none;
+  }
+
+  ::selection {
+    background: var(--color-accent-soft);
+    color: var(--color-ink);
+  }
+}
+
+/* Prix alignés et stables */
+.price {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Entrée de la notification panier */
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.toast-enter {
+  animation: toast-in 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* Respecte le réglage « réduire les animations » du système */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

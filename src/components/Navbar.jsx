@@ -1,80 +1,95 @@
-import { useState } from "react"
-import { Link } from "react-router-dom"
-import logo from "../assets/logo/logoBlack.png"
-import ShopDropdown from "./ShopDropdown"
-import { Search, ShoppingBag, UserRound, Menu, X } from "lucide-react"
+import { useEffect, useState } from "react"
+import { Link, NavLink } from "react-router-dom"
+import { ShoppingBag, UserRound, Menu, X } from "lucide-react"
+import { useAuth } from "../context/AuthContext"
+import { useCart } from "../context/CartContext"
+import logo from "../assets/logo/logo-obvx.webp"
+import ShopDropdown, { SHOP_LINKS } from "./ShopDropdown"
 
-export const Navbar = ({ cartCount = 0 }) => {
+const desktopLinkClass = ({ isActive }) =>
+  `relative inline-flex min-h-11 items-center transition-colors hover:text-amber-700 ${
+    isActive ? "text-amber-700 after:absolute after:inset-x-0 after:bottom-1.5 after:h-0.5 after:bg-amber-700" : ""
+  }`
+
+const mobileLinkClass = ({ isActive }) =>
+  `flex min-h-12 items-center px-2 transition-colors hover:text-amber-700 ${isActive ? "text-amber-700" : ""}`
+
+const iconButton =
+  "relative flex h-11 w-11 items-center justify-center transition-colors hover:text-amber-700"
+
+export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const { count: cartCount } = useCart()
+  const { user } = useAuth()
 
   const closeMenu = () => setIsMenuOpen(false)
 
+  // Échap ferme le menu mobile
+  useEffect(() => {
+    if (!isMenuOpen) return
+    const onKey = (event) => event.key === "Escape" && setIsMenuOpen(false)
+    document.addEventListener("keydown", onKey)
+    return () => document.removeEventListener("keydown", onKey)
+  }, [isMenuOpen])
+
+  const cartLabel =
+    cartCount === 0 ? "Panier (vide)" : `Panier, ${cartCount} article${cartCount > 1 ? "s" : ""}`
+
   return (
-    <section className="fixed inset-x-0 top-0 z-50 border-b border-black/10 bg-amber-100">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-black/10 bg-amber-100">
       <div className="mx-auto max-w-7xl px-4 sm:px-8">
         <nav
-          className="flex min-h-20 items-center justify-between gap-4 py-4 sm:min-h-24"
+          className="flex min-h-20 items-center justify-between gap-4 py-3 sm:min-h-24"
           aria-label="Navigation principale"
         >
-          <Link to="/" className="flex-shrink-0" onClick={closeMenu}>
+          <Link to="/" className="flex-shrink-0" onClick={closeMenu} aria-label="OBVX, accueil">
             <img
               src={logo}
-              alt="OBVX"
-              width={120}
-              height={120}
-              className="h-auto w-[80px] object-contain sm:w-[120px]"
+              alt=""
+              width={720}
+              height={319}
+              fetchPriority="high"
+              className="h-auto w-[116px] object-contain sm:w-[150px]"
             />
           </Link>
 
-          <ul className="hidden font-montserrat text-sm font-semibold uppercase tracking-wide sm:flex sm:items-center sm:gap-8">
+          <ul className="hidden text-sm font-semibold uppercase tracking-wide md:flex md:items-center md:gap-8">
             <li>
-              <Link to="/" className="transition-colors hover:text-amber-700">
+              <NavLink to="/" end className={desktopLinkClass}>
                 Accueil
-              </Link>
+              </NavLink>
             </li>
             <li>
               <ShopDropdown />
             </li>
             <li>
-              <Link to="/collections" className="transition-colors hover:text-amber-700">
-                Collections
-              </Link>
-            </li>
-            <li>
-              <a href="#apropos" className="transition-colors hover:text-amber-700">
+              <NavLink to="/about" className={desktopLinkClass}>
                 À propos
-              </a>
+              </NavLink>
             </li>
           </ul>
 
-          <div className="flex items-center gap-4">
-            <button
-              type="button"
-              className="transition-colors hover:text-amber-700"
-              aria-label="Rechercher"
-              title="Rechercher"
-            >
-              <Search size={21} strokeWidth={1.8} aria-hidden="true" />
-            </button>
-
+          <div className="flex items-center gap-1 sm:gap-2">
             <Link
-              className="hidden transition-colors hover:text-amber-700 sm:block"
+              className={`${iconButton} hidden md:flex md:w-auto md:gap-2 md:px-2`}
               to="/account"
-              aria-label="Mon compte"
-              title="Mon compte"
+              aria-label={user ? `Mon compte, connecté en tant que ${user.firstName}` : "Mon compte"}
             >
-              <UserRound size={21} strokeWidth={1.8} aria-hidden="true" />
+              <UserRound size={22} strokeWidth={1.8} aria-hidden="true" />
+              {user && (
+                <span className="max-w-24 truncate text-xs font-semibold uppercase tracking-wide">
+                  {user.firstName}
+                </span>
+              )}
             </Link>
 
-            <Link
-              className="relative transition-colors hover:text-amber-700"
-              to="/cart"
-              aria-label="Panier"
-              title="Panier"
-            >
-              <ShoppingBag size={21} strokeWidth={1.8} aria-hidden="true" />
+            <Link className={iconButton} to="/cart" aria-label={cartLabel}>
+              <ShoppingBag size={22} strokeWidth={1.8} aria-hidden="true" />
               {cartCount > 0 && (
-                <span className="absolute -right-2 -top-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-black px-1 text-[10px] font-semibold text-white">
+                <span
+                  className="absolute right-0.5 top-0.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-black px-1 text-xs font-semibold text-white"
+                  aria-hidden="true"
+                >
                   {cartCount}
                 </span>
               )}
@@ -83,9 +98,10 @@ export const Navbar = ({ cartCount = 0 }) => {
             <button
               type="button"
               onClick={() => setIsMenuOpen((open) => !open)}
-              className="transition-colors hover:text-amber-700 sm:hidden"
+              className={`${iconButton} md:hidden`}
               aria-label={isMenuOpen ? "Fermer le menu" : "Ouvrir le menu"}
               aria-expanded={isMenuOpen}
+              aria-controls="menu-mobile"
             >
               {isMenuOpen ? (
                 <X size={24} strokeWidth={1.8} aria-hidden="true" />
@@ -96,54 +112,47 @@ export const Navbar = ({ cartCount = 0 }) => {
           </div>
         </nav>
 
+        {/* inert : le menu fermé n'est ni cliquable ni atteignable au clavier */}
         <div
-          className={`overflow-hidden transition-[max-height] duration-300 ease-in-out sm:hidden ${
-            isMenuOpen ? "max-h-96" : "max-h-0"
+          id="menu-mobile"
+          inert={!isMenuOpen}
+          className={`grid transition-[grid-template-rows] duration-300 ease-out md:hidden ${
+            isMenuOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
           }`}
         >
-          <ul className="flex flex-col gap-1 border-t border-black/10 py-4 font-montserrat text-sm font-semibold uppercase tracking-wide">
-            <li>
-              <Link
-                to="/"
-                onClick={closeMenu}
-                className="block px-2 py-3 transition-colors hover:text-amber-700"
-              >
-                Accueil
-              </Link>
-            </li>
-            <li className="px-2">
-              <ShopDropdown />
-            </li>
-            <li>
-              <Link
-                to="/collections"
-                onClick={closeMenu}
-                className="block px-2 py-3 transition-colors hover:text-amber-700"
-              >
-                Collections
-              </Link>
-            </li>
-            <li>
-              <a
-                href="#apropos"
-                onClick={closeMenu}
-                className="block px-2 py-3 transition-colors hover:text-amber-700"
-              >
-                À propos
-              </a>
-            </li>
-            <li>
-              <Link
-                to="/account"
-                onClick={closeMenu}
-                className="block px-2 py-3 transition-colors hover:text-amber-700"
-              >
-                Mon compte
-              </Link>
-            </li>
-          </ul>
+          <div className="overflow-hidden">
+            <ul className="flex flex-col border-t border-black/10 py-3 text-sm font-semibold uppercase tracking-wide">
+              <li>
+                <NavLink to="/" end onClick={closeMenu} className={mobileLinkClass}>
+                  Accueil
+                </NavLink>
+              </li>
+              <li className="px-2 pb-1 pt-4 text-xs text-black/60">Boutique</li>
+              {SHOP_LINKS.map((link) => (
+                <li key={link.to}>
+                  <Link
+                    to={link.to}
+                    onClick={closeMenu}
+                    className="flex min-h-12 items-center pl-6 pr-2 font-medium normal-case tracking-normal transition-colors hover:text-amber-700"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+              <li className="mt-2 border-t border-black/10 pt-2">
+                <NavLink to="/about" onClick={closeMenu} className={mobileLinkClass}>
+                  À propos
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/account" onClick={closeMenu} className={mobileLinkClass}>
+                  {user ? `Mon compte (${user.firstName})` : "Mon compte"}
+                </NavLink>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
-    </section>
+    </header>
   )
 }
