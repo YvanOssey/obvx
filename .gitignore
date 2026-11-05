@@ -1,0 +1,12 @@
+# Fichiers des assistants IA : jamais versionnés
+.claude/
+CLAUDE.md
+CLAUDE.local.md
+AGENTS.md
+.kilo/
+
+# Environnements et dépendances
+.env
+node_modules/
+target/
+.DS_Store
