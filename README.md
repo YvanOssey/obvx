@@ -43,7 +43,8 @@ Guide pas à pas (Neon, Render, Vercel) : **[DEPLOIEMENT.md](DEPLOIEMENT.md)**.
 | `DB_username` / `DB_password` | Identifiants de la base |
 | `JWT_SECRET` | Clé de signature des sessions, 32 caractères minimum, secrète |
 | `CORS_ORIGINS` | Adresses du site autorisées, séparées par des virgules |
-| `ADMIN_EMAILS` | Emails des comptes administrateurs (accès à `/admin`) |
+| `ADMIN_EMAIL` | Email du compte administrateur (connexion sur `/admin/login`) |
+| `ADMIN_PASSWORD` | Mot de passe administrateur, 12 caractères minimum |
 | `CLOUDINARY_URL` | Optionnel : envoi des photos produits depuis l'admin |
 | `PORT` | Port d'écoute (8080 par défaut) |
 
@@ -55,7 +56,8 @@ Au démarrage, l'API crée le catalogue s'il est vide et complète les produits 
 
 | Méthode | Route | Accès |
 |---|---|---|
-| `POST` | `/api/auth/register`, `/api/auth/login` | public |
+| `POST` | `/api/auth/register`, `/api/auth/login` | public (clients) |
+| `POST` | `/api/auth/admin/login` | public (administrateur uniquement) |
 | `GET` | `/api/auth/me` | connecté |
 | `GET` | `/api/products`, `/api/products/{id}` | public |
 | `POST` | `/api/orders` | connecté — prix et tailles vérifiés par le serveur |
@@ -67,7 +69,15 @@ Au démarrage, l'API crée le catalogue s'il est vide et complète les produits 
 
 ## Espace admin
 
-Le site propose `/admin` aux comptes dont l'email figure dans `ADMIN_EMAILS` :
+L'administration est séparée de la boutique :
+
+- un **compte administrateur unique**, créé au démarrage de l'API à partir de `ADMIN_EMAIL`
+  et `ADMIN_PASSWORD` ; mot de passe oublié → changer `ADMIN_PASSWORD` et redémarrer ;
+- connexion sur **`/admin/login`** uniquement (refusée sur la connexion client) ;
+- l'email admin ne peut pas servir à s'inscrire, et ce compte ne peut pas commander ;
+- pour tes achats personnels, utilise un compte client avec un autre email.
+
+L'espace `/admin` propose :
 
 - **Commandes** : chiffres clés, recherche (nom, email, téléphone, n°), filtre par statut,
   coordonnées du client (appel, WhatsApp), changement de statut
@@ -75,7 +85,8 @@ Le site propose `/admin` aux comptes dont l'email figure dans `ADMIN_EMAILS` :
 - **Produits** : création, modification (prix, tailles, photos, badge « Nouveau »),
   masquage sans suppression (l'historique des commandes reste intact).
 
-En local (profil `dev`), crée un compte avec l'email `admin@obvx.dev` pour accéder à l'admin.
+En local (profil `dev`), le compte admin de test est défini dans `application-dev.properties`
+(`admin@obvx.dev`), connexion sur `http://localhost:5173/admin/login`.
 
 ## Licence
 

@@ -30,7 +30,8 @@ public class AuthService {
 
         String email = normalize(request.getEmail());
 
-        if (userRepository.existsByEmail(email)) {
+        // L'email admin est réservé : même message que pour un email déjà pris
+        if (adminAccess.isAdmin(email) || userRepository.existsByEmail(email)) {
             throw new ApiException(HttpStatus.CONFLICT, "Cet email est déjà utilisé");
         }
 
@@ -45,12 +46,24 @@ public class AuthService {
         return toResponse(userRepository.save(user), true);
     }
 
+    /** Connexion client : le compte admin passe par adminLogin (page /admin/login). */
     public AuthResponse login(LoginRequest request) {
+        return authenticate(request, false);
+    }
 
-        User user = userRepository.findByEmail(normalize(request.getEmail()))
-                .orElseThrow(() -> new ApiException(HttpStatus.UNAUTHORIZED, BAD_CREDENTIALS));
+    /** Connexion à l'espace admin : seul le compte ADMIN_EMAIL est accepté. */
+    public AuthResponse adminLogin(LoginRequest request) {
+        return authenticate(request, true);
+    }
 
-        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+    private AuthResponse authenticate(LoginRequest request, boolean adminArea) {
+        String email = normalize(request.getEmail());
+        User user = userRepository.findByEmail(email).orElse(null);
+
+        // Mot de passe toujours vérifié (même durée de réponse), message identique dans tous les cas
+        boolean passwordOk = user != null && passwordEncoder.matches(request.getPassword(), user.getPassword());
+        boolean rightArea = adminAccess.isAdmin(email) == adminArea;
+        if (!passwordOk || !rightArea) {
             throw new ApiException(HttpStatus.UNAUTHORIZED, BAD_CREDENTIALS);
         }
 

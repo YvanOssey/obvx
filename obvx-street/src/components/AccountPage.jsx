@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import { Eye, EyeOff } from "lucide-react"
 import { usePageTitle } from "../hooks/usePageTitle"
 import { statusInfo } from "../lib/orderStatus"
-import { Link, useNavigate, useSearchParams } from "react-router-dom"
+import { Link, Navigate, useNavigate, useSearchParams } from "react-router-dom"
 import { useAuth } from "../context/AuthContext"
 import { api } from "../lib/api"
 import { formatDate, formatPrice, formatSize } from "../lib/format"
@@ -259,6 +259,8 @@ const OrderHistory = () => {
 export const AccountPage = () => {
   const { user, logout } = useAuth()
   usePageTitle(user ? "Mon compte" : "Connexion")
+
+  if (user?.admin) return <Navigate to="/admin" replace />
 
   return (
     <div className="bg-white">

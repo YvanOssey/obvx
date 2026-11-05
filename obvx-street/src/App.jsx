@@ -19,6 +19,9 @@ const About = lazy(() => import("./components/About").then((m) => ({ default: m.
 const AdminPage = lazy(() =>
   import("./components/admin/AdminPage").then((m) => ({ default: m.AdminPage })),
 )
+const AdminLoginPage = lazy(() =>
+  import("./components/admin/AdminLoginPage").then((m) => ({ default: m.AdminLoginPage })),
+)
 const AccountPage = lazy(() =>
   import("./components/AccountPage").then((m) => ({ default: m.AccountPage })),
 )
@@ -91,6 +94,7 @@ export const App = () => {
             <Route path="/account" element={<AccountPage />} />
             <Route path="/cart" element={<CartPage />} />
             <Route path="/admin" element={<AdminPage />} />
+            <Route path="/admin/login" element={<AdminLoginPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>

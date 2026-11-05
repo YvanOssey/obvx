@@ -102,11 +102,21 @@ Si les produits ne s'affichent pas : ouvre la console du navigateur (F12). Une e
 
 ## Espace admin
 
-1. Sur Render → **obvx-api → Environment**, ajoute `ADMIN_EMAILS` = ton email (plusieurs : séparés par des virgules), puis **Save Changes**.
-2. Sur le site, crée un compte avec **exactement cet email** (ou connecte-toi s'il existe déjà).
-3. Le lien **Admin** apparaît dans le menu → `/admin`.
+Le compte administrateur est séparé des comptes clients : il ne s'inscrit pas sur le site, il est créé par l'API.
 
-> Si le lien n'apparaît pas alors que tu étais déjà connecté : déconnecte-toi puis reconnecte-toi.
+1. Sur Render → **obvx-api → Environment**, ajoute :
+
+   | Variable | Valeur |
+   |---|---|
+   | `ADMIN_EMAIL` | l'email qui servira **uniquement** à l'admin (pas celui de tes achats) |
+   | `ADMIN_PASSWORD` | un mot de passe solide, **12 caractères minimum** |
+
+   Supprime `ADMIN_EMAILS` s'il existe (ancienne version). **Save Changes** : l'API redémarre et crée le compte.
+2. Connecte-toi sur **`https://<ton-site>/admin/login`**.
+
+**Mot de passe oublié ou à changer** : modifie `ADMIN_PASSWORD` sur Render et enregistre. Au redémarrage, le nouveau mot de passe remplace l'ancien.
+
+> Si un compte client existait déjà avec cet email, il devient le compte admin : son mot de passe est remplacé par `ADMIN_PASSWORD`, et il ne peut plus se connecter côté client ni commander. Les logs Render indiquent « Compte administrateur créé » ou « Mot de passe administrateur mis à jour ».
 
 ### Photos produits (optionnel)
 

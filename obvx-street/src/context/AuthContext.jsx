@@ -45,6 +45,14 @@ export const AuthProvider = ({ children }) => {
     [saveSession],
   )
 
+  const adminLogin = useCallback(
+    async (credentials) => {
+      const response = await api.adminLogin(credentials)
+      saveSession(fromAuthResponse(response))
+    },
+    [saveSession],
+  )
+
   const register = useCallback(
     async (data) => {
       const response = await api.register(data)
@@ -58,10 +66,11 @@ export const AuthProvider = ({ children }) => {
       user: session?.user ?? null,
       token: session?.token ?? null,
       login,
+      adminLogin,
       register,
       logout,
     }),
-    [session, login, register, logout],
+    [session, login, adminLogin, register, logout],
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

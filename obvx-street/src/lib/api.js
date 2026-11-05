@@ -46,6 +46,7 @@ export const api = {
   products: (options) => apiFetch("/api/products", options),
   product: (id, options) => apiFetch(`/api/products/${encodeURIComponent(id)}`, options),
   login: (credentials) => apiFetch("/api/auth/login", { method: "POST", body: credentials }),
+  adminLogin: (credentials) => apiFetch("/api/auth/admin/login", { method: "POST", body: credentials }),
   register: (data) => apiFetch("/api/auth/register", { method: "POST", body: data }),
   me: (token) => apiFetch("/api/auth/me", { token }),
   createOrder: (items, contact, token) =>
@@ -53,7 +54,7 @@ export const api = {
   myOrders: (token) => apiFetch("/api/orders/me", { token }),
 }
 
-// Espace admin (réservé aux comptes listés dans ADMIN_EMAILS côté serveur)
+// Espace admin (réservé au compte administrateur ADMIN_EMAIL côté serveur)
 export const adminApi = {
   summary: (token) => apiFetch("/api/admin/summary", { token }),
   orders: (token, { status = "", q = "", page = 0, size = 20 } = {}, signal) =>

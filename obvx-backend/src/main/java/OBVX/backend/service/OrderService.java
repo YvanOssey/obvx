@@ -10,6 +10,7 @@ import OBVX.backend.exception.ApiException;
 import OBVX.backend.repository.OrderRepository;
 import OBVX.backend.repository.ProductRepository;
 import OBVX.backend.repository.UserRepository;
+import OBVX.backend.security.AdminAccess;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -27,9 +28,14 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
+    private final AdminAccess adminAccess;
 
     @Transactional
     public OrderResponse create(String email, OrderRequest request) {
+        if (adminAccess.isAdmin(email)) {
+            throw new ApiException(HttpStatus.FORBIDDEN,
+                    "Le compte administrateur ne peut pas passer de commande : utilise un compte client.");
+        }
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ApiException(HttpStatus.UNAUTHORIZED, "Session expirée, reconnecte-toi"));
 
