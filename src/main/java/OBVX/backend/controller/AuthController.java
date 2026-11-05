@@ -4,9 +4,11 @@ import OBVX.backend.dto.request.RegisterRequest;
 import OBVX.backend.dto.response.AuthResponse;
 import OBVX.backend.dto.request.LoginRequest;
 import OBVX.backend.service.AuthService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,7 +20,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(
-            @RequestBody RegisterRequest request
+            @Valid @RequestBody RegisterRequest request
     ) {
         AuthResponse response = authService.register(request);
         return ResponseEntity
@@ -28,9 +30,15 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(
-            @RequestBody LoginRequest request
+            @Valid @RequestBody LoginRequest request
     ) {
         AuthResponse response = authService.login(request);
         return ResponseEntity.ok(response);
+    }
+
+    /** Profil de l'utilisateur connecté (token requis). */
+    @GetMapping("/me")
+    public AuthResponse me(Authentication authentication) {
+        return authService.me(authentication.getName());
     }
 }

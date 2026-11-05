@@ -32,3 +32,10 @@ build/
 ### VS Code ###
 .vscode/
 .env
+
+# Fichiers des assistants IA : jamais versionnés
+.claude/
+CLAUDE.md
+CLAUDE.local.md
+AGENTS.md
+.kilo/
