@@ -33,6 +33,8 @@ En local, Vite redirige `/api` vers `http://localhost:8080` : aucune configurati
 
 ## Mise en production
 
+Guide pas à pas (Neon, Render, Vercel) : **[DEPLOIEMENT.md](DEPLOIEMENT.md)**.
+
 **API** — variables d'environnement :
 
 | Variable | Rôle |

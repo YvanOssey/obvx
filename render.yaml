@@ -1,0 +1,25 @@
+# Déploiement de l'API OBVX sur Render (Blueprint).
+# Render > New > Blueprint > choisir ce dépôt : le service est créé à partir de ce fichier.
+# Les variables marquées "sync: false" sont demandées à la création (voir DEPLOIEMENT.md).
+services:
+  - type: web
+    name: obvx-api
+    runtime: docker
+    rootDir: obvx-backend
+    dockerfilePath: ./Dockerfile
+    region: frankfurt
+    plan: starter
+    branch: main
+    autoDeploy: true
+    healthCheckPath: /actuator/health
+    envVars:
+      - key: JWT_SECRET
+        generateValue: true
+      - key: DB_URL
+        sync: false
+      - key: DB_username
+        sync: false
+      - key: DB_password
+        sync: false
+      - key: CORS_ORIGINS
+        sync: false
